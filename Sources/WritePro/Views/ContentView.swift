@@ -12,9 +12,19 @@ struct ContentView: View {
         HSplitView {
             // Left panel
             VStack(alignment: .leading, spacing: 12) {
-                TextEditor(text: $inputText)
-                    .font(.body)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                ZStack(alignment: .topLeading) {
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(Color(NSColor.textBackgroundColor))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color(NSColor.separatorColor), lineWidth: 1)
+                        )
+                    TextEditor(text: $inputText)
+                        .font(.body)
+                        .padding(8)
+                        .scrollContentBackground(.hidden)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
 
                 ActionPickerView(selectedAction: $selectedAction)
 
