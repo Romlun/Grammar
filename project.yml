@@ -43,8 +43,8 @@ targets:
         MARKETING_VERSION: 1.0.0
         CURRENT_PROJECT_VERSION: 1
         GENERATE_INFOPLIST_FILE: YES
-        CODE_SIGN_IDENTITY: "-"
-        CODE_SIGNING_REQUIRED: "NO"
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: AUH49LC52B
         ASSETCATALOG_COMPILER_APPICON_NAME: ""
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
     dependencies:
@@ -74,5 +74,5 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.romlun.writepro-ios.keyboard
         MARKETING_VERSION: 1.0.0
         CURRENT_PROJECT_VERSION: 1
-        CODE_SIGN_IDENTITY: "-"
-        CODE_SIGNING_REQUIRED: "NO"
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: AUH49LC52B
