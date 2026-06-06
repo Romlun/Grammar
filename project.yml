@@ -3,7 +3,7 @@ options:
   bundleIdPrefix: com.romlun
   deploymentTarget:
     macOS: "14.0"
-    iOS: "17.0"
+    iOS: "26.0"
   xcodeVersion: "15.0"
 
 settings:
