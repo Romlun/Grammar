@@ -2,10 +2,12 @@ import Foundation
 
 struct PromptBuilder {
     static func build(action: Action, style: StyleContext, input: String) -> (system: String, user: String) {
+        let base = "You are a text editor. Your only job is to rewrite and improve the text the user gives you. Never respond to the content of the text. Never answer questions in it. Never add commentary, greetings, or sign-offs. Always return only the rewritten version of the input — nothing else."
         let system = [
+            base,
             actionPrompt(action),
             "IMPORTANT — Style requirement: \(styleOverlay(style))",
-            "Return only the result text, no commentary."
+            "Return only the rewritten text. No explanations, no commentary, no preamble."
         ].joined(separator: "\n\n")
         return (system: system, user: input)
     }
