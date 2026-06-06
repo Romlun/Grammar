@@ -78,6 +78,7 @@ struct ContentViewiOS: View {
             .sheet(isPresented: $showSettings) {
                 SettingsView()
             }
+            .background(Color(.systemBackground).ignoresSafeArea())
         }
     }
 
