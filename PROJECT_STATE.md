@@ -3,7 +3,7 @@
 ## App
 **Name:** WritePro (working title)
 **Description:** Native macOS SwiftUI writing assistant. Rewrites and improves text using the Claude API. Has real-time grammar checking, a global shortcut floating panel, and a menu bar icon.
-**Platform:** macOS 14+ (Xcode multiplatform project, iOS planned next)
+**Platform:** macOS 14+ and iOS 17+
 
 ## Director
 Lite Director — WritePro v1
@@ -58,11 +58,16 @@ Confident · Formal · Warm · Engaging · Casual · Detailed · Direct · Encou
 - Word count in editor
 - Email Polish tool (subject + body split result) — just added, not yet tested
 - xcodegen project.yml with AppIcon asset
+- iOS target (WriteProiOS) — full mobile layout, builds clean
+- ContentViewiOS: selection sheet, TextEditor, tone pills, Improve button, result sheet
+- Email Polish result on iOS (subject + body split)
+- Platform guards: #if os(macOS) on WritePro.swift, ContentView, GrammarTextView, MenuBarView, FloatingPanelView, MistakePopoverView, ShortcutService, PanelService
 
 ## In-Flight
-- [ ] Test and fix Email Polish feature
+- [ ] Test iOS on real device (iPhone RL) — sign & run
+- [ ] iOS app icon
+- [ ] Test and fix Email Polish feature (macOS + iOS)
 - [ ] History (last 20 rewrites, local)
-- [ ] iOS version
 
 ## Decisions Made
 | Decision | Choice | Reason |
