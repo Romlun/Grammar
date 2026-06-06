@@ -111,12 +111,27 @@ struct ContentView: View {
     // MARK: - Editor panel
 
     private var editorPanel: some View {
-        TextEditor(text: $inputText)
-            .font(.body)
-            .padding(8)
-            .scrollContentBackground(.hidden)
-            .background(Color(NSColor.textBackgroundColor))
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        VStack(spacing: 0) {
+            TextEditor(text: $inputText)
+                .font(.body)
+                .padding(8)
+                .scrollContentBackground(.hidden)
+                .background(Color(NSColor.textBackgroundColor))
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+            if !inputText.isEmpty {
+                HStack {
+                    Spacer()
+                    Text("\(inputText.split(separator: " ").count) words")
+                        .font(.system(size: 11))
+                        .foregroundStyle(Color(NSColor.tertiaryLabelColor))
+                        .padding(.trailing, 10)
+                        .padding(.bottom, 6)
+                }
+                .background(Color(NSColor.textBackgroundColor))
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
     // MARK: - Result panel
@@ -138,19 +153,43 @@ struct ContentView: View {
             }
 
             if !resultText.isEmpty && !isLoading {
-                HStack {
+                HStack(spacing: 8) {
+                    Button {
+                        runImprove()
+                    } label: {
+                        HStack(spacing: 5) {
+                            Image(systemName: "arrow.clockwise")
+                            Text("Try Again")
+                        }
+                        .font(.system(size: 12))
+                    }
+                    .buttonStyle(.plain)
+                    .foregroundStyle(Color(NSColor.secondaryLabelColor))
+
                     Spacer()
+
+                    Button {
+                        inputText = resultText
+                        resultText = ""
+                    } label: {
+                        HStack(spacing: 5) {
+                            Image(systemName: "arrow.uturn.left")
+                            Text("Use as Input")
+                        }
+                        .font(.system(size: 12))
+                    }
+                    .buttonStyle(.plain)
+                    .foregroundStyle(Color(NSColor.secondaryLabelColor))
+
                     Button {
                         NSPasteboard.general.clearContents()
                         NSPasteboard.general.setString(resultText, forType: .string)
                     } label: {
-                        HStack(spacing: 6) {
+                        HStack(spacing: 5) {
                             Image(systemName: "doc.on.doc")
                             Text("Copy")
                         }
                         .font(.system(size: 12))
-                        .padding(.vertical, 6)
-                        .padding(.horizontal, 12)
                     }
                     .buttonStyle(.plain)
                     .foregroundStyle(Color(NSColor.secondaryLabelColor))
