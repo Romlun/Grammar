@@ -13,6 +13,7 @@ struct ContentView: View {
     @State private var resultText: String = ""
     @State private var isLoading: Bool = false
     @State private var showSettings: Bool = false
+    @State private var showHistory: Bool = false
 
     // Grammar check
     @State private var grammarEnabled: Bool = UserDefaults.standard.bool(forKey: "grammarEnabled")
@@ -37,6 +38,12 @@ struct ContentView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .toolbar {
             ToolbarItem(placement: .automatic) {
+                Button { showHistory = true } label: {
+                    Image(systemName: "clock")
+                }
+                .help("History")
+            }
+            ToolbarItem(placement: .automatic) {
                 Button {
                     grammarEnabled.toggle()
                     UserDefaults.standard.set(grammarEnabled, forKey: "grammarEnabled")
@@ -55,6 +62,12 @@ struct ContentView: View {
         }
         .sheet(isPresented: $showSettings) {
             SettingsView()
+        }
+        .sheet(isPresented: $showHistory) {
+            HistoryViewMacOS(onSelect: { entry in
+                inputText = entry.original
+                resultText = entry.result
+            })
         }
     }
 
@@ -368,6 +381,13 @@ struct ContentView: View {
                 resultText = "Error: \(error.localizedDescription)"
             }
             isLoading = false
+            if !resultText.isEmpty && !resultText.hasPrefix("Error:") {
+                HistoryService.shared.add(
+                    mode: selection.label,
+                    original: inputText,
+                    result: resultText
+                )
+            }
         }
     }
 

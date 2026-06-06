@@ -37,6 +37,7 @@
 		8BB5CF0D94DD869782BB8423 /* ToneModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A641B35377A03D84A7E9A6 /* ToneModifier.swift */; };
 		8BB8E11EBF157B9037D448A7 /* MenuBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A289E3C16DA355F8D9B669 /* MenuBarView.swift */; };
 		8D34BCBE5BA5108F94F1BBEA /* FloatingPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20424994D28BD99FE8815B39 /* FloatingPanelView.swift */; };
+		8DBAD42B813A64D9EE888203 /* HistoryViewMacOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158AFB91E9AD9912FF9E840B /* HistoryViewMacOS.swift */; };
 		92109B44614A413453BBB9E6 /* HistoryEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783A5B6948D4427EDDA587C6 /* HistoryEntry.swift */; };
 		92D2FD0B9E747F75E2881680 /* GrammarCheckService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBEF6DBFFEA57E20CBE4ED7 /* GrammarCheckService.swift */; };
 		AF675C8CA84C34D3E6214049 /* SidebarSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A7CE791C5347E59E856FC6 /* SidebarSelection.swift */; };
@@ -45,6 +46,7 @@
 		C75C9F47BB1640E62260D41B /* ContentViewiOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0453742D654CB0CF8B3CDF15 /* ContentViewiOS.swift */; };
 		CB1A57FD0E3ECC0DBA5F9F17 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D29E83F1E9BFBD2E9E69893 /* ContentView.swift */; };
 		CD2E282E1C6B485AA7089BCE /* ShortcutService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF6B7D5CFAFA88A6890DCF3 /* ShortcutService.swift */; };
+		CF9099C61277E68AFB596BB2 /* HistoryViewMacOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158AFB91E9AD9912FF9E840B /* HistoryViewMacOS.swift */; };
 		D3DF8911D31B621B734A4114 /* WriteProiOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4891CC1C2F3A3C8515F240F4 /* WriteProiOS.swift */; };
 		D93EC19DBD96D35777ABD08B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACC61F760ED3763483F7A3C4 /* Assets.xcassets */; };
 		DC5C4C61A86A5BA044446DAA /* HistorySheetiOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = F08F543BB42C09544D9B64EE /* HistorySheetiOS.swift */; };
@@ -60,6 +62,7 @@
 /* Begin PBXFileReference section */
 		0453742D654CB0CF8B3CDF15 /* ContentViewiOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewiOS.swift; sourceTree = "<group>"; };
 		115943B5874D4E18D792F2C5 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		158AFB91E9AD9912FF9E840B /* HistoryViewMacOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewMacOS.swift; sourceTree = "<group>"; };
 		1823A0E32313F1813C9AAA25 /* WritePro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WritePro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		20424994D28BD99FE8815B39 /* FloatingPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingPanelView.swift; sourceTree = "<group>"; };
 		278EDDC1F9B30DB07BC6215E /* StyleContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleContext.swift; sourceTree = "<group>"; };
@@ -117,6 +120,7 @@
 				20424994D28BD99FE8815B39 /* FloatingPanelView.swift */,
 				426E09123458E5AC827047BD /* GrammarTextView.swift */,
 				F08F543BB42C09544D9B64EE /* HistorySheetiOS.swift */,
+				158AFB91E9AD9912FF9E840B /* HistoryViewMacOS.swift */,
 				B8A289E3C16DA355F8D9B669 /* MenuBarView.swift */,
 				CE684C49670C530F58EA8E94 /* MistakePopoverView.swift */,
 				115943B5874D4E18D792F2C5 /* SettingsView.swift */,
@@ -273,6 +277,7 @@
 				17D3BE719C5DBCA55CEFCD81 /* HistoryEntry.swift in Sources */,
 				1AB662F28F10B59123B67A7B /* HistoryService.swift in Sources */,
 				1AECEEE2008C4430C50499A3 /* HistorySheetiOS.swift in Sources */,
+				CF9099C61277E68AFB596BB2 /* HistoryViewMacOS.swift in Sources */,
 				4E70A28949AE5F753791CF62 /* KeychainService.swift in Sources */,
 				25CB4947D7756520C2C070ED /* MenuBarView.swift in Sources */,
 				49307287D8E878AFAA071E46 /* MistakePopoverView.swift in Sources */,
@@ -303,6 +308,7 @@
 				92109B44614A413453BBB9E6 /* HistoryEntry.swift in Sources */,
 				168EA066CF922AAE42B1FCC0 /* HistoryService.swift in Sources */,
 				DC5C4C61A86A5BA044446DAA /* HistorySheetiOS.swift in Sources */,
+				8DBAD42B813A64D9EE888203 /* HistoryViewMacOS.swift in Sources */,
 				F6D4CAA22D1442DC11F8AA6A /* KeychainService.swift in Sources */,
 				8BB8E11EBF157B9037D448A7 /* MenuBarView.swift in Sources */,
 				F3E75E1469426861B1388580 /* MistakePopoverView.swift in Sources */,
