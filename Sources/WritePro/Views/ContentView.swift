@@ -126,6 +126,25 @@ struct ContentView: View {
         .padding(.horizontal, 8)
     }
 
+    // MARK: - Helpers
+
+    private var showTonePills: Bool {
+        if case .context = selection { return true }
+        return selection == .tool(.emailPolish)
+    }
+
+    private var emailComponents: (subject: String, body: String)? {
+        guard selection == .tool(.emailPolish),
+              resultText.hasPrefix("SUBJECT:") else { return nil }
+        let lines = resultText.components(separatedBy: "\n")
+        let subject = lines.first?
+            .replacingOccurrences(of: "SUBJECT:", with: "")
+            .trimmingCharacters(in: .whitespaces) ?? ""
+        let body = lines.dropFirst().joined(separator: "\n")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        return (subject, body)
+    }
+
     // MARK: - Editor panel
 
     private var editorPanel: some View {
@@ -169,6 +188,8 @@ struct ContentView: View {
             if isLoading {
                 ProgressView()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else if let email = emailComponents {
+                emailResultPanel(email: email)
             } else {
                 ScrollView {
                     Text(resultText.isEmpty ? "Your improved text will appear here" : resultText)
@@ -178,63 +199,109 @@ struct ContentView: View {
                         .textSelection(.enabled)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-            }
 
-            if !resultText.isEmpty && !isLoading {
-                HStack(spacing: 8) {
-                    Button {
-                        runImprove()
-                    } label: {
-                        HStack(spacing: 5) {
-                            Image(systemName: "arrow.clockwise")
-                            Text("Try Again")
-                        }
-                        .font(.system(size: 12))
-                    }
-                    .buttonStyle(.plain)
-                    .foregroundStyle(Color(NSColor.secondaryLabelColor))
-
-                    Spacer()
-
-                    Button {
-                        inputText = resultText
-                        resultText = ""
-                    } label: {
-                        HStack(spacing: 5) {
-                            Image(systemName: "arrow.uturn.left")
-                            Text("Use as Input")
-                        }
-                        .font(.system(size: 12))
-                    }
-                    .buttonStyle(.plain)
-                    .foregroundStyle(Color(NSColor.secondaryLabelColor))
-
-                    Button {
-                        NSPasteboard.general.clearContents()
-                        NSPasteboard.general.setString(resultText, forType: .string)
-                    } label: {
-                        HStack(spacing: 5) {
-                            Image(systemName: "doc.on.doc")
-                            Text("Copy")
-                        }
-                        .font(.system(size: 12))
-                    }
-                    .buttonStyle(.plain)
-                    .foregroundStyle(Color(NSColor.secondaryLabelColor))
+                if !resultText.isEmpty {
+                    resultButtons(copyText: resultText, useAsInput: resultText)
                 }
-                .padding(.horizontal, 12)
-                .padding(.bottom, 8)
             }
         }
         .background(Color(NSColor.windowBackgroundColor))
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
+    private func emailResultPanel(email: (subject: String, body: String)) -> some View {
+        VStack(alignment: .leading, spacing: 0) {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Subject")
+                    .font(.system(size: 10, weight: .semibold))
+                    .foregroundStyle(Color(NSColor.secondaryLabelColor))
+                Text(email.subject)
+                    .font(.system(size: 13, weight: .medium))
+                    .textSelection(.enabled)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Button {
+                    NSPasteboard.general.clearContents()
+                    NSPasteboard.general.setString(email.subject, forType: .string)
+                } label: {
+                    HStack(spacing: 4) {
+                        Image(systemName: "doc.on.doc")
+                        Text("Copy subject")
+                    }
+                    .font(.system(size: 11))
+                }
+                .buttonStyle(.plain)
+                .foregroundStyle(Color(NSColor.secondaryLabelColor))
+            }
+            .padding(12)
+            .background(Color(NSColor.controlBackgroundColor))
+
+            Divider()
+
+            ScrollView {
+                Text(email.body)
+                    .font(.body)
+                    .textSelection(.enabled)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(12)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+            resultButtons(copyText: email.body, useAsInput: email.body)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    private func resultButtons(copyText: String, useAsInput: String) -> some View {
+        HStack(spacing: 8) {
+            Button {
+                runImprove()
+            } label: {
+                HStack(spacing: 5) {
+                    Image(systemName: "arrow.clockwise")
+                    Text("Try Again")
+                }
+                .font(.system(size: 12))
+            }
+            .buttonStyle(.plain)
+            .foregroundStyle(Color(NSColor.secondaryLabelColor))
+
+            Spacer()
+
+            Button {
+                inputText = useAsInput
+                resultText = ""
+            } label: {
+                HStack(spacing: 5) {
+                    Image(systemName: "arrow.uturn.left")
+                    Text("Use as Input")
+                }
+                .font(.system(size: 12))
+            }
+            .buttonStyle(.plain)
+            .foregroundStyle(Color(NSColor.secondaryLabelColor))
+
+            Button {
+                NSPasteboard.general.clearContents()
+                NSPasteboard.general.setString(copyText, forType: .string)
+            } label: {
+                HStack(spacing: 5) {
+                    Image(systemName: "doc.on.doc")
+                    Text("Copy")
+                }
+                .font(.system(size: 12))
+            }
+            .buttonStyle(.plain)
+            .foregroundStyle(Color(NSColor.secondaryLabelColor))
+        }
+        .padding(.horizontal, 12)
+        .padding(.bottom, 8)
+    }
+
     // MARK: - Bottom toolbar
 
     private var bottomToolbar: some View {
         HStack(spacing: 8) {
-            if case .context = selection {
+            if showTonePills {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 6) {
                         ForEach(ToneModifier.allCases) { tone in

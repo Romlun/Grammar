@@ -16,7 +16,7 @@ struct PromptBuilder {
             ] as [String?]).compactMap { $0 }.joined(separator: "\n\n")
 
         case .tool(let tool):
-            system = [base, toolPrompt(tool)].joined(separator: "\n\n")
+            system = [base, toolPrompt(tool, tone: tone)].joined(separator: "\n\n")
         }
 
         return (system: system, user: input)
@@ -43,8 +43,18 @@ struct PromptBuilder {
 
     // MARK: - Tool prompts
 
-    private static func toolPrompt(_ tool: Tool) -> String {
+    private static func toolPrompt(_ tool: Tool, tone: ToneModifier?) -> String {
         switch tool {
+        case .emailPolish:
+            let toneInstruction = tone.map { "Tone: \($0.label.lowercased())." } ?? "Tone: professional and clear."
+            return """
+            You are an expert email writer. Rewrite the input as a polished professional email.
+            \(toneInstruction)
+            Return EXACTLY in this format with no extra text:
+            SUBJECT: [concise subject line]
+
+            [improved email body]
+            """
         case .fixGrammar:
             return "Fix all grammar, spelling, punctuation, and comma errors. Commas before coordinating conjunctions (for, and, nor, but, or, yet, so) joining two independent clauses. After introductory phrases. In lists. Do not rephrase anything correct. Return only the corrected text."
         case .makeShorter:
