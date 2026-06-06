@@ -132,6 +132,7 @@ struct ContentView: View {
                         .foregroundStyle(resultText.isEmpty ? .secondary : .primary)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(16)
+                        .textSelection(.enabled)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
