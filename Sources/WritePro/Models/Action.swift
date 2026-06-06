@@ -11,6 +11,18 @@ enum Action: String, CaseIterable, Identifiable {
 
     var id: Self { self }
 
+    var icon: String {
+        switch self {
+        case .fixGrammar:       return "pencil.line"
+        case .makeProfessional: return "briefcase"
+        case .makeNatural:      return "bubble.left"
+        case .makeShorter:      return "scissors"
+        case .makePolite:       return "heart"
+        case .makeConfident:    return "bolt"
+        case .explainMistakes:  return "checklist"
+        }
+    }
+
     var label: String {
         switch self {
         case .fixGrammar:       return "Fix Grammar"
