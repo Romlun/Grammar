@@ -24,7 +24,7 @@ class KeyboardViewController: UIInputViewController {
         super.viewDidLoad()
         view.backgroundColor = kBoardBg
 
-        let h = view.heightAnchor.constraint(equalToConstant: 298)
+        let h = view.heightAnchor.constraint(equalToConstant: 316)
         h.priority = .defaultHigh
         h.isActive = true
 
@@ -65,6 +65,7 @@ class KeyboardViewController: UIInputViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         refreshShift()
+        autoShift()
     }
 
     // MARK: - Bar
@@ -281,8 +282,15 @@ class KeyboardViewController: UIInputViewController {
         textDocumentProxy.insertText(t)
     }
 
-    @objc private func spaceTapped()  { textDocumentProxy.insertText(" ") }
-    @objc private func returnTapped() { textDocumentProxy.insertText("\n") }
+    @objc private func spaceTapped() {
+        textDocumentProxy.insertText(" ")
+        autoShift()
+    }
+
+    @objc private func returnTapped() {
+        textDocumentProxy.insertText("\n")
+        autoShift()
+    }
     @objc private func deleteTapped() { textDocumentProxy.deleteBackward() }
 
     @objc private func deleteHeld(_ g: UILongPressGestureRecognizer) {
@@ -329,4 +337,18 @@ class KeyboardViewController: UIInputViewController {
     @objc private func goNumbers() { lettersPane.isHidden = true;  numbersPane.isHidden = false }
     @objc private func goLetters() { lettersPane.isHidden = false; numbersPane.isHidden = true  }
     @objc private func improveTapped() { /* Phase 3: grab surrounding text, send to API */ }
+
+    private func autoShift() {
+        guard shiftState != .locked else { return }
+        let before = textDocumentProxy.documentContextBeforeInput ?? ""
+        let shouldShift = before.isEmpty
+            || before.hasSuffix(". ")
+            || before.hasSuffix("? ")
+            || before.hasSuffix("! ")
+            || before.hasSuffix("\n")
+        if shouldShift {
+            shiftState = .on
+            refreshShift()
+        }
+    }
 }
