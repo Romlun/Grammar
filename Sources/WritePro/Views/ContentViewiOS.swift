@@ -3,20 +3,6 @@ import SwiftUI
 
 private let appPurple = Color(red: 124/255, green: 58/255, blue: 237/255)
 
-extension SidebarSelection {
-    var icon: String {
-        switch self {
-        case .context(let c): return c.icon
-        case .tool(let t):    return t.icon
-        }
-    }
-    var label: String {
-        switch self {
-        case .context(let c): return c.label
-        case .tool(let t):    return t.label
-        }
-    }
-}
 
 struct ContentViewiOS: View {
     @State private var inputText        = ""
