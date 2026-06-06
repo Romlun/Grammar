@@ -6,6 +6,7 @@ struct WriteProiOS: App {
     var body: some Scene {
         WindowGroup {
             ContentViewiOS()
+                .background(Color(.systemBackground).ignoresSafeArea(.all))
         }
     }
 }
