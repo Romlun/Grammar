@@ -1,7 +1,7 @@
 import Foundation
 
 enum StyleContext: String, CaseIterable, Identifiable {
-    case general
+    case everydayMessages
     case workEmail
     case healthcare
     case business
@@ -12,7 +12,7 @@ enum StyleContext: String, CaseIterable, Identifiable {
 
     var label: String {
         switch self {
-        case .general:     return "General"
+        case .everydayMessages: return "Everyday Messages"
         case .workEmail:   return "Work Email"
         case .healthcare:  return "Healthcare"
         case .business:    return "Business Communication"

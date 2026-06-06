@@ -38,8 +38,8 @@ struct PromptBuilder {
 
     private static func styleOverlay(_ style: StyleContext) -> String {
         switch style {
-        case .general:
-            return "Use standard everyday English. No specialized jargon. Appropriate for any general audience."
+        case .everydayMessages:
+            return "Use casual, conversational English suitable for text messages, personal emails, and informal communication. Friendly and natural, not stiff or formal."
 
         case .workEmail:
             return "Use professional office register. Suitable for workplace email: formal but not stiff, friendly but not casual. Avoid slang, contractions are acceptable. Keep a collegial tone."

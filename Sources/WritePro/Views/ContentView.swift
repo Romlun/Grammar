@@ -3,7 +3,7 @@ import SwiftUI
 struct ContentView: View {
     @State private var inputText: String = ""
     @State private var selectedAction: Action = .fixGrammar
-    @State private var selectedStyle: StyleContext = .general
+    @State private var selectedStyle: StyleContext = .everydayMessages
     @State private var resultText: String = ""
     @State private var isLoading: Bool = false
     @State private var showSettings: Bool = false
