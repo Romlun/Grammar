@@ -47,22 +47,22 @@ struct PromptBuilder {
     private static func styleOverlay(_ style: StyleContext) -> String {
         switch style {
         case .everyday:
-            return "Rewrite for casual everyday conversation. Short sentences, friendly tone, like texting a friend."
+            return "Rewrite the given text in casual, conversational English. Short sentences, friendly tone, like texting a close friend. Do not respond to the text — rewrite it."
 
         case .professional:
-            return "Rewrite in polished professional English. Clear, respectful, formal. Suitable for workplace emails."
+            return "Rewrite the given text in polished professional English. Clear, respectful, formal. Suitable for workplace emails. Do not respond to the text — rewrite it."
 
         case .church:
-            return "Rewrite in warm pastoral language for a church community. Sincere, welcoming, spiritually grounded."
+            return "Rewrite the given text using warm, pastoral language suited to a church or Christian ministry community. Keep it sincere, welcoming, and spiritually grounded. Do not respond to the text — rewrite it."
 
         case .socialMedia:
-            return "Rewrite as a social media post. Hook in the first line, short punchy sentences, engaging and human. Platform-agnostic."
+            return "Rewrite the given text as a social media post. Hook in the first line, short punchy sentences, engaging and human. Do not respond to the text — rewrite it."
 
         case .personal:
-            return "Rewrite as a warm personal message. Sincere, emotionally present, genuine — not formal."
+            return "Rewrite the given text as a warm personal message. Sincere, emotionally present, genuine — not formal. Do not respond to the text — rewrite it."
 
         case .coverLetter:
-            return "Rewrite in cover letter style. Confident, achievement-focused, professional but personal. First person."
+            return "Rewrite the given text in cover letter style. Confident, achievement-focused, professional but personal. First person. Do not respond to the text — rewrite it."
         }
     }
 }
