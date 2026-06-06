@@ -10,6 +10,7 @@
 		1CCF49DDB8E2AB40423087BB /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285FCE876D7B7381CF795174 /* Action.swift */; };
 		2825C991E01CBD420BB1364E /* WritePro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB1D6622F7BC0E714CEC0D6 /* WritePro.swift */; };
 		4E70A28949AE5F753791CF62 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661055AE3D6864A20C3211CF /* KeychainService.swift */; };
+		CB1A57FD0E3ECC0DBA5F9F17 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D29E83F1E9BFBD2E9E69893 /* ContentView.swift */; };
 		E80B844572629B6C898F1E2C /* StyleContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278EDDC1F9B30DB07BC6215E /* StyleContext.swift */; };
 /* End PBXBuildFile section */
 
@@ -18,6 +19,7 @@
 		278EDDC1F9B30DB07BC6215E /* StyleContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleContext.swift; sourceTree = "<group>"; };
 		285FCE876D7B7381CF795174 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		661055AE3D6864A20C3211CF /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
+		8D29E83F1E9BFBD2E9E69893 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9EB1D6622F7BC0E714CEC0D6 /* WritePro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritePro.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -36,6 +38,14 @@
 				661055AE3D6864A20C3211CF /* KeychainService.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		91758B66B14AE9BB72026D70 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8D29E83F1E9BFBD2E9E69893 /* ContentView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		9E17A63F7C45A1FD745A7E07 = {
@@ -61,6 +71,7 @@
 				9EB1D6622F7BC0E714CEC0D6 /* WritePro.swift */,
 				CA2046E26916A675C5C0992A /* Models */,
 				278ED0B8879DCA803ECAB6AB /* Services */,
+				91758B66B14AE9BB72026D70 /* Views */,
 			);
 			name = WritePro;
 			path = Sources/WritePro;
@@ -122,6 +133,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1CCF49DDB8E2AB40423087BB /* Action.swift in Sources */,
+				CB1A57FD0E3ECC0DBA5F9F17 /* ContentView.swift in Sources */,
 				4E70A28949AE5F753791CF62 /* KeychainService.swift in Sources */,
 				E80B844572629B6C898F1E2C /* StyleContext.swift in Sources */,
 				2825C991E01CBD420BB1364E /* WritePro.swift in Sources */,
