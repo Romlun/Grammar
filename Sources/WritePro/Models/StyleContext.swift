@@ -10,6 +10,17 @@ enum StyleContext: String, CaseIterable, Identifiable {
 
     var id: Self { self }
 
+    var icon: String {
+        switch self {
+        case .everyday:     return "bubble.left"
+        case .professional: return "briefcase"
+        case .church:       return "heart"
+        case .socialMedia:  return "antenna.radiowaves.left.and.right"
+        case .personal:     return "person"
+        case .coverLetter:  return "doc.text"
+        }
+    }
+
     var label: String {
         switch self {
         case .everyday:     return "Everyday"

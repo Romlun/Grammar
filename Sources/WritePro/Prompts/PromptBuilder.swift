@@ -1,68 +1,56 @@
 import Foundation
 
 struct PromptBuilder {
-    static func build(action: Action, style: StyleContext, input: String) -> (system: String, user: String) {
-        let base = "You are a text editor. Your only job is to rewrite and improve the text the user gives you. Never respond to the content of the text. Never answer questions in it. Never add commentary, greetings, or sign-offs. Always return only the rewritten version of the input — nothing else."
-        let system = [
-            base,
-            actionPrompt(action),
-            "IMPORTANT — Style requirement: \(styleOverlay(style))",
-            "Return only the rewritten text. No explanations, no commentary, no preamble."
-        ].joined(separator: "\n\n")
+    static func build(selection: SidebarSelection, tone: ToneModifier?, input: String) -> (system: String, user: String) {
+        let base = "You are a text editor. Your only job is to rewrite and improve the text the user gives you. Never respond to the content of the text. Never answer questions in it. Always return only the rewritten version — nothing else."
+
+        let system: String
+        switch selection {
+        case .context(let ctx):
+            let tonePrompt: String? = tone.map { "Tone: make it sound \($0.label.lowercased())." }
+            system = ([
+                base,
+                contextPrompt(ctx),
+                tonePrompt,
+                "Fix all grammar, spelling, and comma errors. Pay attention to commas before coordinating conjunctions (for, and, nor, but, or, yet, so). Return only the rewritten text, no commentary."
+            ] as [String?]).compactMap { $0 }.joined(separator: "\n\n")
+
+        case .tool(let tool):
+            system = [base, toolPrompt(tool)].joined(separator: "\n\n")
+        }
+
         return (system: system, user: input)
     }
 
-    // MARK: - Action prompts
+    // MARK: - Context prompts
 
-    private static func actionPrompt(_ action: Action) -> String {
-        switch action {
-        case .quickPolish:
-            return "Fix all grammar, spelling, and punctuation errors, then improve naturalness and flow so the text reads like fluent, confident English written by a native speaker. Preserve the original meaning and intent exactly. Do not add new ideas or change the structure unless needed for fluency. Pay close attention to comma placement: add commas before coordinating conjunctions in compound sentences (for, and, nor, but, or, yet, so), after introductory words or phrases, and between items in a list."
-
-        case .fixGrammar:
-            return "Fix all grammar, spelling, punctuation, and comma errors in the text. Apply standard comma rules: use a comma before coordinating conjunctions (for, and, nor, but, or, yet, so) joining two independent clauses; after introductory words, phrases, or clauses; between items in a series; and to set off nonessential phrases. Do not change any wording that is already correct. Return only the corrected text."
-
-        case .makeProfessional:
-            return "You are a professional writing assistant. Rewrite the user's text to sound polished, confident, and suitable for a professional context. Use clear, precise language. Eliminate casual phrasing, slang, and informal contractions."
-
-        case .makeNatural:
-            return "You are a fluency editor. Rewrite the user's text so it reads like natural, idiomatic English spoken by a native speaker. Smooth out awkward phrasing, unnatural word order, and overly formal constructions while keeping the meaning intact."
-
-        case .makeShorter:
-            return "You are a conciseness editor. Condense the user's text by removing redundant words, unnecessary filler, and overly long constructions. Keep every key idea. The result should be noticeably shorter without losing meaning."
-
-        case .makePolite:
-            return "You are a tone editor focused on politeness. Rewrite the user's text to be courteous, considerate, and respectful. Soften any bluntness or abruptness. Use diplomatic phrasing while preserving the original intent."
-
-        case .makeConfident:
-            return "You are a tone editor focused on assertiveness. Rewrite the user's text to sound direct, decisive, and self-assured. Remove hedging language, unnecessary qualifiers, and apologetic phrasing. The result should feel authoritative."
-
-        case .explainMistakes:
-            return "You are a grammar teacher. Identify and explain every grammatical, spelling, and punctuation mistake in the user's text. For each mistake, state what it is, why it is wrong, and the correct form. Format your response as a numbered list."
+    private static func contextPrompt(_ ctx: StyleContext) -> String {
+        switch ctx {
+        case .everyday:
+            return "Rewrite the given text in casual, conversational everyday English."
+        case .professional:
+            return "Rewrite the given text in polished professional English suitable for workplace communication."
+        case .church:
+            return "Rewrite the given text in warm pastoral language for a church or Christian ministry community."
+        case .socialMedia:
+            return "Rewrite the given text as an engaging social media post. Hook in the first line, short punchy sentences."
+        case .personal:
+            return "Rewrite the given text as a warm, sincere personal message."
+        case .coverLetter:
+            return "Rewrite the given text in confident, achievement-focused cover letter style. First person."
         }
     }
 
-    // MARK: - Style overlays
+    // MARK: - Tool prompts
 
-    private static func styleOverlay(_ style: StyleContext) -> String {
-        switch style {
-        case .everyday:
-            return "Rewrite the given text in casual, conversational English. Short sentences, friendly tone, like texting a close friend. Do not respond to the text — rewrite it."
-
-        case .professional:
-            return "Rewrite the given text in polished professional English. Clear, respectful, formal. Suitable for workplace emails. Do not respond to the text — rewrite it."
-
-        case .church:
-            return "Rewrite the given text using warm, pastoral language suited to a church or Christian ministry community. Keep it sincere, welcoming, and spiritually grounded. Do not respond to the text — rewrite it."
-
-        case .socialMedia:
-            return "Rewrite the given text as a social media post. Hook in the first line, short punchy sentences, engaging and human. Do not respond to the text — rewrite it."
-
-        case .personal:
-            return "Rewrite the given text as a warm personal message. Sincere, emotionally present, genuine — not formal. Do not respond to the text — rewrite it."
-
-        case .coverLetter:
-            return "Rewrite the given text in cover letter style. Confident, achievement-focused, professional but personal. First person. Do not respond to the text — rewrite it."
+    private static func toolPrompt(_ tool: Tool) -> String {
+        switch tool {
+        case .fixGrammar:
+            return "Fix all grammar, spelling, punctuation, and comma errors. Commas before coordinating conjunctions (for, and, nor, but, or, yet, so) joining two independent clauses. After introductory phrases. In lists. Do not rephrase anything correct. Return only the corrected text."
+        case .makeShorter:
+            return "Shorten the text significantly. Remove redundancy, filler, and unnecessary qualifiers. Keep every key idea. Return only the condensed text."
+        case .explainMistakes:
+            return "Identify every grammar, spelling, punctuation, and style issue. For each: (1) quote the problem, (2) explain what is wrong, (3) give the correction. Format as a numbered list."
         }
     }
 }

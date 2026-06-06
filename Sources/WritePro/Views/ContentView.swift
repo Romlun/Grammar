@@ -1,14 +1,14 @@
 import SwiftUI
 
 private let purple       = Color(red: 124/255, green: 58/255,  blue: 237/255)
-private let sidebarBg    = Color(red: 30/255,  green: 30/255,  blue: 30/255)
-private let unselected   = Color(red: 153/255, green: 153/255, blue: 153/255)
-private let sectionLabel = Color(red: 85/255,  green: 85/255,  blue: 85/255)
+private let sidebarBg   = Color(red: 30/255,  green: 30/255,  blue: 30/255)
+private let unselected  = Color(red: 153/255, green: 153/255, blue: 153/255)
+private let sectionLbl  = Color(red: 85/255,  green: 85/255,  blue: 85/255)
 
 struct ContentView: View {
     @State private var inputText: String = ""
-    @State private var selectedAction: Action = .quickPolish
-    @State private var selectedStyle: StyleContext = .everyday
+    @State private var selection: SidebarSelection = .context(.everyday)
+    @State private var selectedTone: ToneModifier? = nil
     @State private var resultText: String = ""
     @State private var isLoading: Bool = false
     @State private var showSettings: Bool = false
@@ -43,39 +43,69 @@ struct ContentView: View {
 
     private var sidebar: some View {
         VStack(alignment: .leading, spacing: 2) {
-            Text("ACTION")
-                .font(.system(size: 10, weight: .semibold))
-                .foregroundStyle(sectionLabel)
-                .padding(.horizontal, 12)
-                .padding(.top, 16)
-                .padding(.bottom, 6)
-
-            ForEach(Action.allCases) { action in
-                Button {
-                    selectedAction = action
-                } label: {
-                    HStack(spacing: 8) {
-                        Image(systemName: action.icon)
-                            .frame(width: 16, alignment: .center)
-                        Text(action.label)
-                            .font(.system(size: 12))
-                            .lineLimit(1)
-                        Spacer()
+            sidebarSection(label: "CONTEXT") {
+                ForEach(StyleContext.allCases) { style in
+                    sidebarButton(
+                        icon: style.icon,
+                        label: style.label,
+                        isSelected: selection == .context(style)
+                    ) {
+                        selection = .context(style)
                     }
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 7)
-                    .background(selectedAction == action ? purple : Color.clear)
-                    .cornerRadius(6)
-                    .foregroundStyle(selectedAction == action ? Color.white : unselected)
                 }
-                .buttonStyle(.plain)
-                .padding(.horizontal, 8)
+            }
+
+            Color.clear.frame(height: 12)
+
+            sidebarSection(label: "TOOLS") {
+                ForEach(Tool.allCases) { tool in
+                    sidebarButton(
+                        icon: tool.icon,
+                        label: tool.label,
+                        isSelected: selection == .tool(tool)
+                    ) {
+                        selection = .tool(tool)
+                        selectedTone = nil
+                    }
+                }
             }
 
             Spacer()
         }
         .frame(width: 180)
         .background(sidebarBg)
+    }
+
+    private func sidebarSection<Content: View>(label: String, @ViewBuilder content: () -> Content) -> some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(label)
+                .font(.system(size: 10, weight: .semibold))
+                .foregroundStyle(sectionLbl)
+                .padding(.horizontal, 12)
+                .padding(.top, 16)
+                .padding(.bottom, 4)
+            content()
+        }
+    }
+
+    private func sidebarButton(icon: String, label: String, isSelected: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            HStack(spacing: 8) {
+                Image(systemName: icon)
+                    .frame(width: 16, alignment: .center)
+                Text(label)
+                    .font(.system(size: 12))
+                    .lineLimit(1)
+                Spacer()
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 7)
+            .background(isSelected ? purple : Color.clear)
+            .cornerRadius(6)
+            .foregroundStyle(isSelected ? Color.white : unselected)
+        }
+        .buttonStyle(.plain)
+        .padding(.horizontal, 8)
     }
 
     // MARK: - Editor panel
@@ -136,31 +166,33 @@ struct ContentView: View {
 
     private var bottomToolbar: some View {
         HStack(spacing: 8) {
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 6) {
-                    ForEach(StyleContext.allCases) { style in
-                        Button {
-                            selectedStyle = style
-                        } label: {
-                            Text(style.label)
-                                .font(.system(size: 11))
-                                .padding(.vertical, 4)
-                                .padding(.horizontal, 10)
-                                .background(selectedStyle == style ? purple.opacity(0.15) : Color.clear)
-                                .clipShape(Capsule())
-                                .overlay(Capsule().stroke(
-                                    selectedStyle == style ? purple : Color(NSColor.separatorColor),
-                                    lineWidth: 1
-                                ))
-                                .foregroundStyle(selectedStyle == style ? purple : Color(NSColor.secondaryLabelColor))
+            if case .context = selection {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 6) {
+                        ForEach(ToneModifier.allCases) { tone in
+                            Button {
+                                selectedTone = selectedTone == tone ? nil : tone
+                            } label: {
+                                Text(tone.label)
+                                    .font(.system(size: 11))
+                                    .padding(.vertical, 4)
+                                    .padding(.horizontal, 10)
+                                    .background(selectedTone == tone ? purple.opacity(0.15) : Color.clear)
+                                    .clipShape(Capsule())
+                                    .overlay(Capsule().stroke(
+                                        selectedTone == tone ? purple : Color(NSColor.separatorColor),
+                                        lineWidth: 1
+                                    ))
+                                    .foregroundStyle(selectedTone == tone ? purple : Color(NSColor.secondaryLabelColor))
+                            }
+                            .buttonStyle(.plain)
                         }
-                        .buttonStyle(.plain)
                     }
+                    .padding(.horizontal, 4)
                 }
-                .padding(.horizontal, 4)
+            } else {
+                Spacer()
             }
-
-            Spacer()
 
             Button("Improve ↵") {
                 runImprove()
@@ -191,7 +223,7 @@ struct ContentView: View {
         Task {
             isLoading = true
             resultText = ""
-            let (system, user) = PromptBuilder.build(action: selectedAction, style: selectedStyle, input: inputText)
+            let (system, user) = PromptBuilder.build(selection: selection, tone: selectedTone, input: inputText)
             do {
                 for try await chunk in ClaudeService.stream(prompt: user, system: system) {
                     resultText += chunk
