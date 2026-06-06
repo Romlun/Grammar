@@ -46,7 +46,14 @@ actor GrammarCheckService {
             guard let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
                   let content = json["content"] as? [[String: Any]],
                   let responseText = content.first?["text"] as? String else { return [] }
-            let clean = responseText.trimmingCharacters(in: .whitespacesAndNewlines)
+            var clean = responseText.trimmingCharacters(in: .whitespacesAndNewlines)
+            clean = clean.replacingOccurrences(of: "```json", with: "")
+            clean = clean.replacingOccurrences(of: "```", with: "")
+            clean = clean.trimmingCharacters(in: .whitespacesAndNewlines)
+            if let start = clean.firstIndex(of: "["), let end = clean.lastIndex(of: "]") {
+                clean = String(clean[start...end])
+            }
+            print("[Grammar] clean JSON:", clean)
             guard let mistakesData = clean.data(using: .utf8),
                   let mistakesJSON = try JSONSerialization.jsonObject(with: mistakesData) as? [[String: String]]
             else { return [] }
