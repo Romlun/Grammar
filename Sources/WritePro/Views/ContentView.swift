@@ -1,3 +1,4 @@
+#if os(macOS)
 import SwiftUI
 
 private let purple       = Color(red: 124/255, green: 58/255,  blue: 237/255)
@@ -414,3 +415,5 @@ struct ContentView: View {
         mistakePopoverWindow = popover
     }
 }
+
+#endif
