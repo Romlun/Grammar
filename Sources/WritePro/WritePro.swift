@@ -7,5 +7,12 @@ struct WritePro: App {
             ContentView()
                 .frame(minWidth: 700, minHeight: 450)
         }
+
+        MenuBarExtra {
+            MenuBarView()
+        } label: {
+            Image(systemName: "pencil.circle.fill")
+        }
+        .menuBarExtraStyle(.menu)
     }
 }
