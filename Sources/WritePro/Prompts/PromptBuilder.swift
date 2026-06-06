@@ -7,7 +7,16 @@ struct PromptBuilder {
         let system: String
         switch selection {
         case .context(let ctx):
-            let tonePrompt: String? = tone.map { "Tone: make it sound \($0.label.lowercased())." }
+            let tonePrompt: String?
+            if let tone = tone {
+                if tone == .biblical && ctx == .church {
+                    tonePrompt = "Rewrite using rich Biblical language — draw from the style of scripture, with reverence and spiritual weight. After the rewritten text, on a new line add a separator (---), then suggest 1–2 relevant Bible verses that support or illuminate the message. Format verses as: [Book Chapter:Verse] — quote the verse text."
+                } else {
+                    tonePrompt = "Tone: make it sound \(tone.label.lowercased())."
+                }
+            } else {
+                tonePrompt = nil
+            }
             system = ([
                 base,
                 contextPrompt(ctx),

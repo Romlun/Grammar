@@ -9,6 +9,7 @@ enum ToneModifier: String, CaseIterable, Identifiable {
     case detailed
     case direct
     case encouraging
+    case biblical
 
     var id: Self { self }
 
@@ -22,6 +23,7 @@ enum ToneModifier: String, CaseIterable, Identifiable {
         case .detailed:    return "Detailed"
         case .direct:      return "Direct"
         case .encouraging: return "Encouraging"
+        case .biblical:    return "Biblical"
         }
     }
 }
