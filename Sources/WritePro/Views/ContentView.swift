@@ -25,6 +25,7 @@ struct ContentView: View {
                         .scrollContentBackground(.hidden)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .clipped()
 
                 ActionPickerView(selectedAction: $selectedAction)
 
@@ -51,6 +52,7 @@ struct ContentView: View {
             }
             .padding()
             .frame(minWidth: 300, maxWidth: .infinity, maxHeight: .infinity)
+            .clipped()
 
             // Right panel
             VStack(alignment: .leading, spacing: 12) {
@@ -77,7 +79,7 @@ struct ContentView: View {
             .padding()
             .frame(minWidth: 300, maxWidth: .infinity, maxHeight: .infinity)
         }
-        .frame(width: 900, height: 500)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .toolbar {
             ToolbarItem(placement: .automatic) {
                 Button {
