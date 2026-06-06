@@ -5,7 +5,7 @@ import SwiftUI
 struct WriteProiOS: App {
     var body: some Scene {
         WindowGroup {
-            Text("WritePro iOS — coming soon")
+            ContentViewiOS()
         }
     }
 }
