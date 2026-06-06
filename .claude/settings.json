@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git *)",
+      "Bash(swift *)",
+      "Bash(xcodegen *)",
+      "Bash(mkdir *)",
+      "Bash(touch *)",
+      "Bash(echo *)",
+      "Bash(cat *)",
+      "Bash(ls *)",
+      "Write(*)",
+      "Edit(*)",
+      "Read(*)",
+      "MultiEdit(*)"
+    ]
+  }
+}

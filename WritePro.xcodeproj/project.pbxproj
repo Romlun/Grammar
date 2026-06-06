@@ -19,6 +19,7 @@
 		7ADB460CD083654CFB1C45BC /* ShortcutService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF6B7D5CFAFA88A6890DCF3 /* ShortcutService.swift */; };
 		AF675C8CA84C34D3E6214049 /* SidebarSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A7CE791C5347E59E856FC6 /* SidebarSelection.swift */; };
 		CB1A57FD0E3ECC0DBA5F9F17 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D29E83F1E9BFBD2E9E69893 /* ContentView.swift */; };
+		D93EC19DBD96D35777ABD08B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACC61F760ED3763483F7A3C4 /* Assets.xcassets */; };
 		DD38B9E29FCE90A6556C9569 /* PanelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1979B06A341E9897E420840 /* PanelService.swift */; };
 		E80B844572629B6C898F1E2C /* StyleContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278EDDC1F9B30DB07BC6215E /* StyleContext.swift */; };
 /* End PBXBuildFile section */
@@ -34,6 +35,7 @@
 		661055AE3D6864A20C3211CF /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
 		8D29E83F1E9BFBD2E9E69893 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9EB1D6622F7BC0E714CEC0D6 /* WritePro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritePro.swift; sourceTree = "<group>"; };
+		ACC61F760ED3763483F7A3C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B8A289E3C16DA355F8D9B669 /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
 		D286286566132385DC236D42 /* ClaudeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeService.swift; sourceTree = "<group>"; };
 		E1979B06A341E9897E420840 /* PanelService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelService.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 		FBA11D1A65E2A6853EBE597D /* WritePro */ = {
 			isa = PBXGroup;
 			children = (
+				ACC61F760ED3763483F7A3C4 /* Assets.xcassets */,
 				9EB1D6622F7BC0E714CEC0D6 /* WritePro.swift */,
 				CA2046E26916A675C5C0992A /* Models */,
 				B41F706BFA93E1109161019B /* Prompts */,
@@ -120,6 +123,7 @@
 			buildConfigurationList = 656B8EB7D87BB1C46B08DA35 /* Build configuration list for PBXNativeTarget "WritePro" */;
 			buildPhases = (
 				3A3E5C4200E5000A1474511C /* Sources */,
+				5DBBF6A879A7A77EEA172509 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -161,6 +165,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		5DBBF6A879A7A77EEA172509 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D93EC19DBD96D35777ABD08B /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3A3E5C4200E5000A1474511C /* Sources */ = {
