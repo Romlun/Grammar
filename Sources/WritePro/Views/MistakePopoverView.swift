@@ -1,3 +1,4 @@
+#if os(macOS)
 import SwiftUI
 
 struct MistakePopoverView: View {
@@ -42,3 +43,5 @@ struct MistakePopoverView: View {
         .frame(width: 280)
     }
 }
+
+#endif
