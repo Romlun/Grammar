@@ -8,7 +8,7 @@ struct FloatingPanelView: View {
     let initialText: String
 
     @State private var inputText: String = ""
-    @State private var selectedAction: Action = .fixGrammar
+    @State private var selectedAction: Action = .quickPolish
     @State private var selectedStyle: StyleContext = .everyday
     @State private var resultText: String = ""
     @State private var isLoading: Bool = false

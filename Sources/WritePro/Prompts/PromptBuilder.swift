@@ -14,6 +14,9 @@ struct PromptBuilder {
 
     private static func actionPrompt(_ action: Action) -> String {
         switch action {
+        case .quickPolish:
+            return "Fix all grammar, spelling, and punctuation errors, then improve naturalness and flow so the text reads like fluent, confident English written by a native speaker. Preserve the original meaning and intent exactly. Do not add new ideas or change the structure unless needed for fluency."
+
         case .fixGrammar:
             return "You are a grammar correction assistant. Fix all spelling, punctuation, and grammatical errors in the user's text. Preserve the original meaning, tone, and structure as closely as possible. Only correct errors — do not rephrase or rewrite."
 
