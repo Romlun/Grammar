@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0038C9F16E9B83C1F84DFB82 /* ContentViewiOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0453742D654CB0CF8B3CDF15 /* ContentViewiOS.swift */; };
 		0AA4C11C9B0C9860B2CD9716 /* WritePro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB1D6622F7BC0E714CEC0D6 /* WritePro.swift */; };
 		0F18D4E3EB1C31806BD04F19 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D29E83F1E9BFBD2E9E69893 /* ContentView.swift */; };
 		1CCF49DDB8E2AB40423087BB /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285FCE876D7B7381CF795174 /* Action.swift */; };
@@ -36,6 +37,7 @@
 		AF675C8CA84C34D3E6214049 /* SidebarSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A7CE791C5347E59E856FC6 /* SidebarSelection.swift */; };
 		B7ADFD1EA3DFC1E78A87C13B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115943B5874D4E18D792F2C5 /* SettingsView.swift */; };
 		BE064EA934D7426E3917AF7B /* WriteProiOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4891CC1C2F3A3C8515F240F4 /* WriteProiOS.swift */; };
+		C75C9F47BB1640E62260D41B /* ContentViewiOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0453742D654CB0CF8B3CDF15 /* ContentViewiOS.swift */; };
 		CB1A57FD0E3ECC0DBA5F9F17 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D29E83F1E9BFBD2E9E69893 /* ContentView.swift */; };
 		CD2E282E1C6B485AA7089BCE /* ShortcutService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF6B7D5CFAFA88A6890DCF3 /* ShortcutService.swift */; };
 		D3DF8911D31B621B734A4114 /* WriteProiOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4891CC1C2F3A3C8515F240F4 /* WriteProiOS.swift */; };
@@ -50,6 +52,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0453742D654CB0CF8B3CDF15 /* ContentViewiOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewiOS.swift; sourceTree = "<group>"; };
 		115943B5874D4E18D792F2C5 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		1823A0E32313F1813C9AAA25 /* WritePro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WritePro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		20424994D28BD99FE8815B39 /* FloatingPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingPanelView.swift; sourceTree = "<group>"; };
@@ -100,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				8D29E83F1E9BFBD2E9E69893 /* ContentView.swift */,
+				0453742D654CB0CF8B3CDF15 /* ContentViewiOS.swift */,
 				20424994D28BD99FE8815B39 /* FloatingPanelView.swift */,
 				426E09123458E5AC827047BD /* GrammarTextView.swift */,
 				B8A289E3C16DA355F8D9B669 /* MenuBarView.swift */,
@@ -249,6 +253,7 @@
 				1CCF49DDB8E2AB40423087BB /* Action.swift in Sources */,
 				78B11FD6615DE4F37CB391FB /* ClaudeService.swift in Sources */,
 				CB1A57FD0E3ECC0DBA5F9F17 /* ContentView.swift in Sources */,
+				0038C9F16E9B83C1F84DFB82 /* ContentViewiOS.swift in Sources */,
 				6ECBAEB648722D0EDFE5A48E /* FloatingPanelView.swift in Sources */,
 				92D2FD0B9E747F75E2881680 /* GrammarCheckService.swift in Sources */,
 				DE19771B2691E01199778DC5 /* GrammarMistake.swift in Sources */,
@@ -275,6 +280,7 @@
 				1F1546D97612A0F9EEE4C1FE /* Action.swift in Sources */,
 				783A68C7FF2ED43D1A903416 /* ClaudeService.swift in Sources */,
 				0F18D4E3EB1C31806BD04F19 /* ContentView.swift in Sources */,
+				C75C9F47BB1640E62260D41B /* ContentViewiOS.swift in Sources */,
 				8D34BCBE5BA5108F94F1BBEA /* FloatingPanelView.swift in Sources */,
 				E02E0CDE6D8F9FEAC11D4419 /* GrammarCheckService.swift in Sources */,
 				6EE402FDD65D4C5F0408D365 /* GrammarMistake.swift in Sources */,
@@ -300,7 +306,7 @@
 		349147A794DB34506BE5DF8A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "";
 				CODE_SIGNING_REQUIRED = NO;
 				CODE_SIGN_IDENTITY = "-";
 				CURRENT_PROJECT_VERSION = 1;
@@ -460,7 +466,7 @@
 		730EF5E9195D2E4084D62B09 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "";
 				CODE_SIGNING_REQUIRED = NO;
 				CODE_SIGN_IDENTITY = "-";
 				CURRENT_PROJECT_VERSION = 1;
