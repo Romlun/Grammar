@@ -15,6 +15,7 @@
 		6ECBAEB648722D0EDFE5A48E /* FloatingPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20424994D28BD99FE8815B39 /* FloatingPanelView.swift */; };
 		76F49E7170BADB602B0D7417 /* PromptBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CBD562CFFAA709E685BAA5 /* PromptBuilder.swift */; };
 		78B11FD6615DE4F37CB391FB /* ClaudeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D286286566132385DC236D42 /* ClaudeService.swift */; };
+		7ADB460CD083654CFB1C45BC /* ShortcutService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF6B7D5CFAFA88A6890DCF3 /* ShortcutService.swift */; };
 		CB1A57FD0E3ECC0DBA5F9F17 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D29E83F1E9BFBD2E9E69893 /* ContentView.swift */; };
 		DD38B9E29FCE90A6556C9569 /* PanelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1979B06A341E9897E420840 /* PanelService.swift */; };
 		E80B844572629B6C898F1E2C /* StyleContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278EDDC1F9B30DB07BC6215E /* StyleContext.swift */; };
@@ -33,6 +34,7 @@
 		B8A289E3C16DA355F8D9B669 /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
 		D286286566132385DC236D42 /* ClaudeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeService.swift; sourceTree = "<group>"; };
 		E1979B06A341E9897E420840 /* PanelService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelService.swift; sourceTree = "<group>"; };
+		EEF6B7D5CFAFA88A6890DCF3 /* ShortcutService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -50,6 +52,7 @@
 				D286286566132385DC236D42 /* ClaudeService.swift */,
 				661055AE3D6864A20C3211CF /* KeychainService.swift */,
 				E1979B06A341E9897E420840 /* PanelService.swift */,
+				EEF6B7D5CFAFA88A6890DCF3 /* ShortcutService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -167,6 +170,7 @@
 				DD38B9E29FCE90A6556C9569 /* PanelService.swift in Sources */,
 				76F49E7170BADB602B0D7417 /* PromptBuilder.swift in Sources */,
 				1FB46C0A4D9525E1875516C9 /* SettingsView.swift in Sources */,
+				7ADB460CD083654CFB1C45BC /* ShortcutService.swift in Sources */,
 				E80B844572629B6C898F1E2C /* StyleContext.swift in Sources */,
 				2825C991E01CBD420BB1364E /* WritePro.swift in Sources */,
 			);

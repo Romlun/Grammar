@@ -138,18 +138,10 @@ struct FloatingPanelView: View {
     private func replace() {
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(resultText, forType: .string)
-        PanelService.shared.panel?.close()
-        PanelService.shared.panel = nil
+        NSApp.windows.filter { $0 is NSPanel }.forEach { $0.close() }
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            guard let source = CGEventSource(stateID: .hidSystemState) else { return }
-            let vKey: CGKeyCode = 9
-            let down = CGEvent(keyboardEventSource: source, virtualKey: vKey, keyDown: true)
-            let up   = CGEvent(keyboardEventSource: source, virtualKey: vKey, keyDown: false)
-            down?.flags = .maskCommand
-            up?.flags   = .maskCommand
-            down?.post(tap: .cghidEventTap)
-            up?.post(tap: .cghidEventTap)
+            ShortcutService.shared.simulateKeyEvent(keyCode: 0x09, flags: .maskCommand)
         }
     }
 }
