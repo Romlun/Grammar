@@ -1,70 +1,82 @@
 # PROJECT_STATE.md
 
 ## App
-**Name:** WritePro (working title — rename before any public release)
-**Description:** Native SwiftUI app that rewrites and improves text across 7 actions and 6 style contexts, using the Claude API with streaming responses.
-**Platforms:** iPhone, iPad, macOS (SwiftUI Multiplatform)
+**Name:** WritePro (working title)
+**Description:** Native macOS SwiftUI writing assistant. Rewrites and improves text using the Claude API. Has real-time grammar checking, a global shortcut floating panel, and a menu bar icon.
+**Platform:** macOS 14+ (Xcode multiplatform project, iOS planned next)
 
 ## Director
 Lite Director — WritePro v1
 
 ## Phase
-v1 — setup
+v1 — polish
 
 ## Stack
-- SwiftUI Multiplatform (iOS + macOS targets, single codebase)
-- Claude API — Haiku for speed/cost; Sonnet option for quality
-- No backend — API key stored in iOS Keychain
-- Streaming via URLSession async bytes
-- No database, no auth, no sync (MVP)
+- SwiftUI + AppKit (macOS), xcodegen for project generation
+- Claude API — claude-haiku-4-5-20251001, streaming + non-streaming
+- API key stored in UserDefaults (no Keychain — avoids permission dialog)
+- No backend, no database, no auth
+- Repo: ~/Developer/Grammar/
 
-## Repo
-https://github.com/Romlun/Grammar
+## Architecture
+
+### Sidebar — CONTEXT (rewrites text for a specific register):
+Everyday · Professional · Church · Social Media · Personal · Cover Letter
+
+### Sidebar — TOOLS (functional, no rewrite):
+Email Polish · Fix Grammar · Make Shorter · Explain Mistakes
+
+### Bottom toolbar — TONE (modifies rewrite output):
+Confident · Formal · Warm · Engaging · Casual · Detailed · Direct · Encouraging
+(Tone pills visible for Context selections AND Email Polish tool)
+
+### Key files:
+- Models: SidebarSelection.swift, Tool.swift, StyleContext.swift, ToneModifier.swift, GrammarMistake.swift
+- Services: ClaudeService.swift (streaming), GrammarCheckService.swift (debounced, non-streaming, prompt caching), PanelService.swift, ShortcutService.swift, KeychainService.swift
+- Prompts: PromptBuilder.swift — build(selection:tone:input:) returns (system, user)
+- Views: ContentView.swift, GrammarTextView.swift (NSViewRepresentable), FloatingPanelView.swift, MistakePopoverView.swift, MenuBarView.swift, SettingsView.swift
+
+### Special behaviors:
+- Church context: always uses Biblical style with NLT verses (no tone needed for Biblical — it's always on)
+- Email Polish: result must be parsed — starts with "SUBJECT: ..." then body
+- Grammar check: debounced 1.5s, toggle in toolbar, disabled by default (UserDefaults key: grammarEnabled)
+- Global shortcut: Cmd+Shift+W captures selected text from any app via clipboard, opens floating panel
+- Result panel buttons: Try Again, Use as Input, Copy
+
+## What's Shipped
+- Full macOS UI: dark sidebar + HSplit editor/result layout
+- Context + Tone model (replaced old Action/Style model)
+- PromptBuilder with base editor instruction (never responds, always rewrites)
+- ClaudeService streaming
+- GrammarCheckService with real-time underlines + click-to-popover
+- GrammarTextView (NSViewRepresentable with reliable binding.wrappedValue pattern)
+- Menu bar icon + MenuBarView
+- Global shortcut (Cmd+Shift+W) + FloatingPanelView + PanelService
+- ShortcutService with Carbon hotkey + clipboard capture
+- App icon (purple rounded square with serif W)
+- Try Again + Use as Input + Copy buttons
+- Word count in editor
+- Email Polish tool (subject + body split result) — just added, not yet tested
+- xcodegen project.yml with AppIcon asset
+
+## In-Flight
+- [ ] Test and fix Email Polish feature
+- [ ] History (last 20 rewrites, local)
+- [ ] iOS version
 
 ## Decisions Made
 | Decision | Choice | Reason |
 |---|---|---|
-| Platform | SwiftUI Multiplatform | Native Apple feel, one codebase |
-| AI backend | Claude API (Haiku / Sonnet) | Best instruction-following, fast streaming |
-| Backend server | None (MVP) | Simpler, API key in Keychain |
-| Response delivery | Streaming | Feels fast, better UX |
-| Monetization | Personal use first | Validate before distributing |
-| Priority | Prompt quality | This is the product |
-
-## What's Shipped
-- PROJECT_STATE.md + GitHub SSH configured
-- Xcode project via xcodegen
-- Action + StyleContext enums (7 actions, 6 styles)
-- ClaudeService with SSE streaming
-- KeychainService (API key storage)
-- PromptBuilder (composable action × style prompts)
-- Full macOS UI: HSplitView, TextEditor, ActionPickerView, StylePickerView, SettingsView
-- Improve button wired to Claude API — streaming results working
-- Copy button
-- MVP complete and running on Mac
-
-## In-Flight
-Nothing — MVP shipped.
-
-## Up Next (Phase 2 — Polish)
-- [ ] Try again / regenerate button
-- [ ] Word/character count
-- [ ] Keyboard shortcut Cmd+Enter to trigger Improve
-- [ ] App icon
-- [ ] Dark mode polish
-- [ ] Fix Grammar as default visible action in picker
-
-## Actions (7)
-Fix Grammar · Make Professional · Make Natural · Make Shorter · Make More Polite · Make More Confident · Explain Mistakes
-
-## Style Contexts (6)
-Work Email · Healthcare/ECM · Business Communication · Church/Ministry · Immigration/Legal · Everyday Messages
-
-## Out of Scope (MVP)
-History, keyboard extension, menu bar app, custom styles, sync, subscription, onboarding
+| Platform | macOS first, iOS next | Build and test fast |
+| AI backend | Claude Haiku 4.5 | Speed + cost |
+| API key storage | UserDefaults | No permission dialogs |
+| Grammar check default | Off | User turns on manually |
+| Prompt caching | Enabled for grammar check | Cost reduction |
+| Style for Church | Always Biblical + NLT | User preference |
 
 ## Notes
-- Prompt quality is the core IP — budget ~50% of build time here
-- Prompts are composable: base + action layer + style overlay
-- Streaming via AsyncThrowingStream over URLSession bytes
-- Repo cloned to ~/Developer/Grammar/
+- Run `xcodegen generate` after any structural file change
+- project.yml is in repo root
+- Do NOT use Keychain — use UserDefaults for API key (KeychainService.swift now wraps UserDefaults)
+- Grammar check is OFF by default (UserDefaults grammarEnabled = false)
+- After any commit, always push to origin main
