@@ -9,7 +9,7 @@ struct FloatingPanelView: View {
 
     @State private var inputText: String = ""
     @State private var selectedAction: Action = .fixGrammar
-    @State private var selectedStyle: StyleContext = .everydayMessages
+    @State private var selectedStyle: StyleContext = .everyday
     @State private var resultText: String = ""
     @State private var isLoading: Bool = false
 

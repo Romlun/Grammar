@@ -38,23 +38,23 @@ struct PromptBuilder {
 
     private static func styleOverlay(_ style: StyleContext) -> String {
         switch style {
-        case .everydayMessages:
-            return "Use casual, conversational English suitable for text messages, personal emails, and informal communication. Friendly and natural, not stiff or formal."
+        case .everyday:
+            return "Use casual, natural, conversational English. Friendly and warm, like texting a close friend. Short sentences are fine. No stiffness."
 
-        case .workEmail:
-            return "Use professional office register. Suitable for workplace email: formal but not stiff, friendly but not casual. Avoid slang, contractions are acceptable. Keep a collegial tone."
-
-        case .healthcare:
-            return "Use clear, plain language appropriate for patient-facing healthcare communication. Avoid medical jargon where possible; when technical terms are necessary, keep them accurate. Tone should be calm, reassuring, and precise."
-
-        case .business:
-            return "Use formal business communication register. Language should reflect a corporate environment: objective, results-oriented, and free of emotional phrasing. Suitable for reports, executive summaries, or client-facing documents."
+        case .professional:
+            return "Use polished workplace English. Clear, respectful, and direct. Suitable for emails, reports, and formal communication. Avoid slang."
 
         case .church:
-            return "Use warm, respectful language appropriate for a church or ministry community. Tone should be welcoming, sincere, and encouraging. Avoid overly formal or corporate language; spiritual warmth is appropriate."
+            return "Use warm, pastoral English appropriate for a church or Christian ministry community. Sincere, welcoming, and spiritually grounded. Avoid corporate language."
 
-        case .immigration:
-            return "Use clear, precise language appropriate for immigration and legal documents. Be factual and formal. Avoid ambiguity. Use plain language where possible but maintain the accuracy required in legal or official contexts."
+        case .socialMedia:
+            return "Write for social media. Be engaging, punchy, and human. Hook the reader in the first line. Use short paragraphs. Conversational but purposeful. Suitable for LinkedIn, Instagram, or X."
+
+        case .personal:
+            return "Use warm, sincere, emotionally present language. Suitable for personal letters, thank-you notes, apologies, or heartfelt messages. Genuine — not performative."
+
+        case .coverLetter:
+            return "Use confident, professional English appropriate for job applications. Achievement-focused, specific, and persuasive. Formal but not stiff. First person."
         }
     }
 }

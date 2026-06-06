@@ -1,23 +1,23 @@
 import Foundation
 
 enum StyleContext: String, CaseIterable, Identifiable {
-    case everydayMessages
-    case workEmail
-    case healthcare
-    case business
+    case everyday
+    case professional
     case church
-    case immigration
+    case socialMedia
+    case personal
+    case coverLetter
 
     var id: Self { self }
 
     var label: String {
         switch self {
-        case .everydayMessages: return "Everyday Messages"
-        case .workEmail:   return "Work Email"
-        case .healthcare:  return "Healthcare"
-        case .business:    return "Business Communication"
-        case .church:      return "Church / Ministry"
-        case .immigration: return "Immigration / Legal"
+        case .everyday:     return "Everyday"
+        case .professional: return "Professional"
+        case .church:       return "Church"
+        case .socialMedia:  return "Social Media"
+        case .personal:     return "Personal"
+        case .coverLetter:  return "Cover Letter"
         }
     }
 }
