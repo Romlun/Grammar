@@ -13,7 +13,7 @@ struct StylePickerView: View {
                     Text(style.label).tag(style)
                 }
             }
-            .pickerStyle(.segmented)
+            .pickerStyle(.menu)
         }
     }
 }
