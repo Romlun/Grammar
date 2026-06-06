@@ -32,18 +32,27 @@ https://github.com/Romlun/Grammar
 | Priority | Prompt quality | This is the product |
 
 ## What's Shipped
-- PROJECT_STATE.md created
-- GitHub SSH connection configured
+- PROJECT_STATE.md + GitHub SSH configured
+- Xcode project via xcodegen
+- Action + StyleContext enums (7 actions, 6 styles)
+- ClaudeService with SSE streaming
+- KeychainService (API key storage)
+- PromptBuilder (composable action × style prompts)
+- Full macOS UI: HSplitView, TextEditor, ActionPickerView, StylePickerView, SettingsView
+- Improve button wired to Claude API — streaming results working
+- Copy button
+- MVP complete and running on Mac
 
 ## In-Flight
-- [ ] Create Xcode multiplatform project and push to repo
+Nothing — MVP shipped.
 
-## Up Next (Phase 1 — Week 1)
-- [ ] Action + StyleContext enums
-- [ ] Basic UI: text input + action picker + result area
-- [ ] ClaudeService.swift with streaming
-- [ ] KeychainService.swift
-- [ ] Settings screen (API key input)
+## Up Next (Phase 2 — Polish)
+- [ ] Try again / regenerate button
+- [ ] Word/character count
+- [ ] Keyboard shortcut Cmd+Enter to trigger Improve
+- [ ] App icon
+- [ ] Dark mode polish
+- [ ] Fix Grammar as default visible action in picker
 
 ## Actions (7)
 Fix Grammar · Make Professional · Make Natural · Make Shorter · Make More Polite · Make More Confident · Explain Mistakes
