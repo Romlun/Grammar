@@ -30,6 +30,9 @@ struct GrammarTextView: NSViewRepresentable {
     func updateNSView(_ scrollView: NSScrollView, context: Context) {
         context.coordinator.parent = self
         let tv = scrollView.documentView as! NSTextView
+
+        tv.delegate = nil
+
         if tv.string != text {
             tv.string = text
         }
@@ -39,7 +42,6 @@ struct GrammarTextView: NSViewRepresentable {
         storage.removeAttribute(.underlineStyle, range: fullRange)
         storage.removeAttribute(.underlineColor, range: fullRange)
         storage.addAttribute(.font, value: NSFont.systemFont(ofSize: 13), range: fullRange)
-
         for mistake in mistakes {
             guard let range = mistake.range,
                   range.location != NSNotFound,
@@ -48,6 +50,7 @@ struct GrammarTextView: NSViewRepresentable {
             storage.addAttribute(.underlineColor, value: NSColor.systemRed, range: range)
         }
 
+        tv.delegate = context.coordinator
         context.coordinator.mistakes = mistakes
         context.coordinator.onMistakeTapped = onMistakeTapped
     }
@@ -63,6 +66,7 @@ struct GrammarTextView: NSViewRepresentable {
 
         func textDidChange(_ notification: Notification) {
             if let tv = notification.object as? NSTextView {
+                print("[GrammarTextView] text changed, length:", tv.string.count)
                 parent.text = tv.string
             }
         }
