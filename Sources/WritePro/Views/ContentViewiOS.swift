@@ -26,6 +26,7 @@ struct ContentViewiOS: View {
     @State private var isLoading        = false
     @State private var showSelection    = false
     @State private var showSettings     = false
+    @State private var showHistory      = false
     @FocusState private var editorFocused: Bool
     @Environment(\.colorScheme) private var scheme
 
@@ -72,6 +73,12 @@ struct ContentViewiOS: View {
                         .font(.system(size: 18, weight: .semibold))
                         .foregroundStyle(titleColor)
                 }
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button { showHistory = true } label: {
+                        Image(systemName: "clock")
+                            .foregroundStyle(appPurple)
+                    }
+                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button { showSettings = true } label: {
                         Image(systemName: "gear").foregroundStyle(appPurple)
@@ -88,6 +95,12 @@ struct ContentViewiOS: View {
                 }
             }
             .sheet(isPresented: $showSettings) { SettingsView() }
+            .sheet(isPresented: $showHistory) {
+                HistorySheetiOS(onSelect: { entry in
+                    inputText = entry.original
+                    resultText = entry.result
+                })
+            }
             .background(Color(.systemBackground).ignoresSafeArea(.all))
         }
     }
@@ -251,6 +264,13 @@ struct ContentViewiOS: View {
                 resultText = "Error: \(error.localizedDescription)"
             }
             isLoading = false
+            if !resultText.isEmpty && !resultText.hasPrefix("Error:") {
+                HistoryService.shared.add(
+                    mode: selection.label,
+                    original: inputText,
+                    result: resultText
+                )
+            }
         }
     }
 }
