@@ -180,7 +180,17 @@ class KeyboardViewController: UIInputViewController {
         attachLongPress(del)
 
         r3.addArrangedSubview(sym)
-        r3.addArrangedSubview(eqRow([".",",","?","!","'"], letter: false))
+        let mid = UIStackView(); mid.axis = .horizontal; mid.spacing = 6; mid.distribution = .fillEqually
+        for ch in [".",",","?","!","'"] {
+            let b = btn(ch, bg: kKeyBg, fs: 17)
+            b.addTarget(self, action: #selector(charTapped(_:)), for: .touchUpInside)
+            mid.addArrangedSubview(b)
+        }
+        let padL = UIView(); padL.widthAnchor.constraint(equalToConstant: 36).isActive = true
+        let padR = UIView(); padR.widthAnchor.constraint(equalToConstant: 36).isActive = true
+        r3.addArrangedSubview(padL)
+        r3.addArrangedSubview(mid)
+        r3.addArrangedSubview(padR)
         r3.addArrangedSubview(del)
         s.addArrangedSubview(r3)
         s.addArrangedSubview(buildBottomRow(mode: "ABC", toNums: false))
@@ -198,7 +208,6 @@ class KeyboardViewController: UIInputViewController {
 
     private func buildBottomRow(mode: String, toNums: Bool) -> UIStackView {
         let r = hstk(6, dist: .fill)
-        r.heightAnchor.constraint(equalToConstant: 46).isActive = true
 
         let modeBtn = btn(mode, bg: kActionBg, fs: 15)
         modeBtn.widthAnchor.constraint(equalToConstant: 42).isActive = true
@@ -246,7 +255,7 @@ class KeyboardViewController: UIInputViewController {
     }
 
     private func vstk(_ sp: CGFloat) -> UIStackView {
-        let s = UIStackView(); s.axis = .vertical; s.spacing = sp; return s
+        let s = UIStackView(); s.axis = .vertical; s.spacing = sp; s.distribution = .fillEqually; return s
     }
 
     private func hstk(_ sp: CGFloat, dist: UIStackView.Distribution = .fill) -> UIStackView {
