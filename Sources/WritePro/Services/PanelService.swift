@@ -1,3 +1,4 @@
+#if os(macOS)
 import AppKit
 import SwiftUI
 
@@ -27,3 +28,5 @@ class PanelService: ObservableObject {
         panel?.makeKeyAndOrderFront(nil)
     }
 }
+
+#endif

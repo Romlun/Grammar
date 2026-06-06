@@ -1,3 +1,4 @@
+#if os(macOS)
 import Carbon.HIToolbox
 import AppKit
 import CoreGraphics
@@ -66,3 +67,5 @@ final class ShortcutService {
         up?.post(tap: .cgSessionEventTap)
     }
 }
+
+#endif

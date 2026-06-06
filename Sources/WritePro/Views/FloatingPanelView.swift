@@ -1,3 +1,4 @@
+#if os(macOS)
 import SwiftUI
 import AppKit
 import CoreGraphics
@@ -158,3 +159,5 @@ struct FloatingPanelView: View {
         }
     }
 }
+
+#endif
