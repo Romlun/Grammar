@@ -26,6 +26,7 @@
 		4E70A28949AE5F753791CF62 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661055AE3D6864A20C3211CF /* KeychainService.swift */; };
 		58D055E88BCB9BCF3561A96C /* ToneModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A641B35377A03D84A7E9A6 /* ToneModifier.swift */; };
 		5DF94C6D93205A28F99DA81A /* GrammarTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426E09123458E5AC827047BD /* GrammarTextView.swift */; };
+		6D77DC5D82672F32BDB8C9BE /* WriteProKeyboard.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 4976524F425DBC429DE71352 /* WriteProKeyboard.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		6ECBAEB648722D0EDFE5A48E /* FloatingPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20424994D28BD99FE8815B39 /* FloatingPanelView.swift */; };
 		6EE402FDD65D4C5F0408D365 /* GrammarMistake.swift in Sources */ = {isa = PBXBuildFile; fileRef = A565C9FF66CD6DEDF1EB8BC3 /* GrammarMistake.swift */; };
 		76F49E7170BADB602B0D7417 /* PromptBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CBD562CFFAA709E685BAA5 /* PromptBuilder.swift */; };
@@ -42,6 +43,7 @@
 		92D2FD0B9E747F75E2881680 /* GrammarCheckService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBEF6DBFFEA57E20CBE4ED7 /* GrammarCheckService.swift */; };
 		AF675C8CA84C34D3E6214049 /* SidebarSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A7CE791C5347E59E856FC6 /* SidebarSelection.swift */; };
 		B7ADFD1EA3DFC1E78A87C13B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115943B5874D4E18D792F2C5 /* SettingsView.swift */; };
+		B7C1A23FBA99FAD904EF3DFA /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5623833ED96BED15B8ADAC51 /* KeyboardViewController.swift */; };
 		BE064EA934D7426E3917AF7B /* WriteProiOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4891CC1C2F3A3C8515F240F4 /* WriteProiOS.swift */; };
 		C75C9F47BB1640E62260D41B /* ContentViewiOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0453742D654CB0CF8B3CDF15 /* ContentViewiOS.swift */; };
 		CB1A57FD0E3ECC0DBA5F9F17 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D29E83F1E9BFBD2E9E69893 /* ContentView.swift */; };
@@ -59,6 +61,30 @@
 		FFB821F63CC534D9C50AC158 /* PanelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1979B06A341E9897E420840 /* PanelService.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		773792302C45038333B3963A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 39316035316F29CE424EBB9D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 95C1E61DD7674DF1F59A9413;
+			remoteInfo = WriteProKeyboard;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		39402B86C72B5B4C5578BB4D /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				6D77DC5D82672F32BDB8C9BE /* WriteProKeyboard.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		0453742D654CB0CF8B3CDF15 /* ContentViewiOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewiOS.swift; sourceTree = "<group>"; };
 		115943B5874D4E18D792F2C5 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -71,6 +97,8 @@
 		426E09123458E5AC827047BD /* GrammarTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrammarTextView.swift; sourceTree = "<group>"; };
 		46A641B35377A03D84A7E9A6 /* ToneModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToneModifier.swift; sourceTree = "<group>"; };
 		4891CC1C2F3A3C8515F240F4 /* WriteProiOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteProiOS.swift; sourceTree = "<group>"; };
+		4976524F425DBC429DE71352 /* WriteProKeyboard.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = WriteProKeyboard.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		5623833ED96BED15B8ADAC51 /* KeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
 		661055AE3D6864A20C3211CF /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
 		783A5B6948D4427EDDA587C6 /* HistoryEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryEntry.swift; sourceTree = "<group>"; };
 		7E72EE1A337A2A928FCEE632 /* HistoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryService.swift; sourceTree = "<group>"; };
@@ -80,6 +108,7 @@
 		ABBEF6DBFFEA57E20CBE4ED7 /* GrammarCheckService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrammarCheckService.swift; sourceTree = "<group>"; };
 		ACC61F760ED3763483F7A3C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B8A289E3C16DA355F8D9B669 /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
+		BC54B6018B536140B0A898F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		CE684C49670C530F58EA8E94 /* MistakePopoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakePopoverView.swift; sourceTree = "<group>"; };
 		D286286566132385DC236D42 /* ClaudeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeService.swift; sourceTree = "<group>"; };
 		E1979B06A341E9897E420840 /* PanelService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelService.swift; sourceTree = "<group>"; };
@@ -95,6 +124,7 @@
 			children = (
 				1823A0E32313F1813C9AAA25 /* WritePro.app */,
 				F11BF05A0D13E2B495E8190A /* WriteProiOS.app */,
+				4976524F425DBC429DE71352 /* WriteProKeyboard.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -110,6 +140,16 @@
 				EEF6B7D5CFAFA88A6890DCF3 /* ShortcutService.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		49296849A3DB95B591F03C51 /* WriteProKeyboard */ = {
+			isa = PBXGroup;
+			children = (
+				BC54B6018B536140B0A898F2 /* Info.plist */,
+				5623833ED96BED15B8ADAC51 /* KeyboardViewController.swift */,
+			);
+			name = WriteProKeyboard;
+			path = Sources/WriteProKeyboard;
 			sourceTree = "<group>";
 		};
 		91758B66B14AE9BB72026D70 /* Views */ = {
@@ -132,6 +172,7 @@
 			isa = PBXGroup;
 			children = (
 				FBA11D1A65E2A6853EBE597D /* WritePro */,
+				49296849A3DB95B591F03C51 /* WriteProKeyboard */,
 				1F21F26839B0491E648237C4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -181,10 +222,12 @@
 			buildPhases = (
 				C3AE7463779B08411F9073F2 /* Sources */,
 				BC673875A9A6B7B915AEFC05 /* Resources */,
+				39402B86C72B5B4C5578BB4D /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				2A7B8E5FC331727A95159F9A /* PBXTargetDependency */,
 			);
 			name = WriteProiOS;
 			packageProductDependencies = (
@@ -210,6 +253,23 @@
 			productName = WritePro;
 			productReference = 1823A0E32313F1813C9AAA25 /* WritePro.app */;
 			productType = "com.apple.product-type.application";
+		};
+		95C1E61DD7674DF1F59A9413 /* WriteProKeyboard */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 192D7A0ECB4F5064BDADCC5F /* Build configuration list for PBXNativeTarget "WriteProKeyboard" */;
+			buildPhases = (
+				D7637B5A8BA9FCB3BAC4BFA0 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WriteProKeyboard;
+			packageProductDependencies = (
+			);
+			productName = WriteProKeyboard;
+			productReference = 4976524F425DBC429DE71352 /* WriteProKeyboard.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -237,6 +297,7 @@
 			projectRoot = "";
 			targets = (
 				944E2C7DD67C817C73D24C7E /* WritePro */,
+				95C1E61DD7674DF1F59A9413 /* WriteProKeyboard */,
 				399F7A67497EC149998EB980 /* WriteProiOS */,
 			);
 		};
@@ -324,7 +385,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D7637B5A8BA9FCB3BAC4BFA0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B7C1A23FBA99FAD904EF3DFA /* KeyboardViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2A7B8E5FC331727A95159F9A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 95C1E61DD7674DF1F59A9413 /* WriteProKeyboard */;
+			targetProxy = 773792302C45038333B3963A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		349147A794DB34506BE5DF8A /* Release */ = {
@@ -530,9 +607,58 @@
 			};
 			name = Debug;
 		};
+		BAFFA9D4029D1879D6FD2FBC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "-";
+				CURRENT_PROJECT_VERSION = 1;
+				INFOPLIST_FILE = Sources/WriteProKeyboard/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.romlun.writepro-ios.keyboard";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		E5EBCA793FBE750A1190AB09 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "-";
+				CURRENT_PROJECT_VERSION = 1;
+				INFOPLIST_FILE = Sources/WriteProKeyboard/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.romlun.writepro-ios.keyboard";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		192D7A0ECB4F5064BDADCC5F /* Build configuration list for PBXNativeTarget "WriteProKeyboard" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E5EBCA793FBE750A1190AB09 /* Debug */,
+				BAFFA9D4029D1879D6FD2FBC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		656B8EB7D87BB1C46B08DA35 /* Build configuration list for PBXNativeTarget "WritePro" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
