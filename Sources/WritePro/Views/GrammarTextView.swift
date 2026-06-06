@@ -18,56 +18,79 @@ struct GrammarTextView: NSViewRepresentable {
         tv.drawsBackground = true
         tv.isAutomaticSpellingCorrectionEnabled = false
         tv.isAutomaticQuoteSubstitutionEnabled = false
+        tv.isAutomaticDashSubstitutionEnabled = false
+        tv.isAutomaticQuoteSubstitutionEnabled = false
         scrollView.hasVerticalScroller = true
         scrollView.autohidesScrollers = true
-
-        let click = NSClickGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handleClick(_:)))
+        let click = NSClickGestureRecognizer(
+            target: context.coordinator,
+            action: #selector(Coordinator.handleClick(_:))
+        )
         tv.addGestureRecognizer(click)
-
         return scrollView
     }
 
     func updateNSView(_ scrollView: NSScrollView, context: Context) {
-        context.coordinator.parent = self
         let tv = scrollView.documentView as! NSTextView
+        context.coordinator.binding = $text
+        context.coordinator.onMistakeTapped = onMistakeTapped
 
-        tv.delegate = nil
+        context.coordinator.isApplyingAttributes = true
+        if tv.string != text { tv.string = text }
+        applyUnderlines(to: tv, mistakes: mistakes)
+        context.coordinator.mistakes = mistakes
+        context.coordinator.isApplyingAttributes = false
+    }
 
-        if tv.string != text {
-            tv.string = text
-        }
-
-        let storage = tv.textStorage!
+    private func applyUnderlines(to tv: NSTextView, mistakes: [GrammarMistake]) {
+        guard let storage = tv.textStorage else { return }
         let fullRange = NSRange(location: 0, length: storage.length)
+        storage.beginEditing()
         storage.removeAttribute(.underlineStyle, range: fullRange)
         storage.removeAttribute(.underlineColor, range: fullRange)
-        storage.addAttribute(.font, value: NSFont.systemFont(ofSize: 13), range: fullRange)
+        storage.addAttribute(
+            .font,
+            value: NSFont.systemFont(ofSize: 13),
+            range: fullRange
+        )
         for mistake in mistakes {
             guard let range = mistake.range,
                   range.location != NSNotFound,
                   range.location + range.length <= storage.length else { continue }
-            storage.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: range)
-            storage.addAttribute(.underlineColor, value: NSColor.systemRed, range: range)
+            storage.addAttribute(
+                .underlineStyle,
+                value: NSUnderlineStyle.single.rawValue,
+                range: range
+            )
+            storage.addAttribute(
+                .underlineColor,
+                value: NSColor.systemRed,
+                range: range
+            )
         }
-
-        tv.delegate = context.coordinator
-        context.coordinator.mistakes = mistakes
-        context.coordinator.onMistakeTapped = onMistakeTapped
+        storage.endEditing()
     }
 
-    func makeCoordinator() -> Coordinator { Coordinator(self) }
+    func makeCoordinator() -> Coordinator {
+        Coordinator(binding: $text)
+    }
 
     class Coordinator: NSObject, NSTextViewDelegate {
-        var parent: GrammarTextView
+        var binding: Binding<String>
         var mistakes: [GrammarMistake] = []
         var onMistakeTapped: ((GrammarMistake, NSRect) -> Void)?
+        var isApplyingAttributes = false
 
-        init(_ parent: GrammarTextView) { self.parent = parent }
+        init(binding: Binding<String>) {
+            self.binding = binding
+        }
 
         func textDidChange(_ notification: Notification) {
-            if let tv = notification.object as? NSTextView {
-                print("[GrammarTextView] text changed, length:", tv.string.count)
-                parent.text = tv.string
+            guard !isApplyingAttributes,
+                  let tv = notification.object as? NSTextView else { return }
+            print("[GrammarTextView] textDidChange, length:", tv.string.count)
+            DispatchQueue.main.async {
+                self.binding.wrappedValue = tv.string
             }
         }
 
@@ -75,20 +98,25 @@ struct GrammarTextView: NSViewRepresentable {
             guard let tv = gesture.view as? NSTextView,
                   let layoutManager = tv.layoutManager,
                   let textContainer = tv.textContainer else { return }
-
             let point = gesture.location(in: tv)
             let charIndex = layoutManager.characterIndex(
                 for: point,
                 in: textContainer,
                 fractionOfDistanceBetweenInsertionPoints: nil
             )
-
             for mistake in mistakes {
-                guard let range = mistake.range, range.location != NSNotFound else { continue }
-                guard charIndex >= range.location && charIndex < range.location + range.length else { continue }
-
-                let glyphRange = layoutManager.glyphRange(forCharacterRange: range, actualCharacterRange: nil)
-                var rect = layoutManager.boundingRect(forGlyphRange: glyphRange, in: textContainer)
+                guard let range = mistake.range,
+                      range.location != NSNotFound,
+                      charIndex >= range.location,
+                      charIndex < range.location + range.length else { continue }
+                let glyphRange = layoutManager.glyphRange(
+                    forCharacterRange: range,
+                    actualCharacterRange: nil
+                )
+                var rect = layoutManager.boundingRect(
+                    forGlyphRange: glyphRange,
+                    in: textContainer
+                )
                 rect.origin.x += tv.textContainerOrigin.x
                 rect.origin.y += tv.textContainerOrigin.y
                 let rectInWindow = tv.convert(rect, to: nil)
