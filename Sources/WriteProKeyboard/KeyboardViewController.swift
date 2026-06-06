@@ -24,7 +24,7 @@ class KeyboardViewController: UIInputViewController {
         super.viewDidLoad()
         view.backgroundColor = kBoardBg
 
-        let h = view.heightAnchor.constraint(equalToConstant: 316)
+        let h = view.heightAnchor.constraint(equalToConstant: 264)
         h.priority = .defaultHigh
         h.isActive = true
 
@@ -117,6 +117,7 @@ class KeyboardViewController: UIInputViewController {
     private func buildLettersPane() -> UIView {
         let v = UIView(); v.backgroundColor = .clear
         let s = vstk(8)
+        s.distribution = .fillEqually
         s.translatesAutoresizingMaskIntoConstraints = false
         v.addSubview(s)
 
@@ -165,6 +166,7 @@ class KeyboardViewController: UIInputViewController {
     private func buildNumbersPane() -> UIView {
         let v = UIView(); v.backgroundColor = .clear
         let s = vstk(8)
+        s.distribution = .fillEqually
         s.translatesAutoresizingMaskIntoConstraints = false
         v.addSubview(s)
 
@@ -256,7 +258,7 @@ class KeyboardViewController: UIInputViewController {
     }
 
     private func vstk(_ sp: CGFloat) -> UIStackView {
-        let s = UIStackView(); s.axis = .vertical; s.spacing = sp; s.distribution = .fillEqually; return s
+        let s = UIStackView(); s.axis = .vertical; s.spacing = sp; return s
     }
 
     private func hstk(_ sp: CGFloat, dist: UIStackView.Distribution = .fill) -> UIStackView {
