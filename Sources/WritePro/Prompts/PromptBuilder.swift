@@ -7,16 +7,7 @@ struct PromptBuilder {
         let system: String
         switch selection {
         case .context(let ctx):
-            let tonePrompt: String?
-            if let tone = tone {
-                if tone == .biblical && ctx == .church {
-                    tonePrompt = "Rewrite using rich Biblical language — draw from the style of scripture, with reverence and spiritual weight. After the rewritten text, on a new line add a separator (---), then suggest 1–2 relevant Bible verses that support or illuminate the message. Format verses as: [Book Chapter:Verse] — quote the verse text."
-                } else {
-                    tonePrompt = "Tone: make it sound \(tone.label.lowercased())."
-                }
-            } else {
-                tonePrompt = nil
-            }
+            let tonePrompt: String? = tone.map { "Tone: make it sound \($0.label.lowercased())." }
             system = ([
                 base,
                 contextPrompt(ctx),
@@ -40,7 +31,7 @@ struct PromptBuilder {
         case .professional:
             return "Rewrite the given text in polished professional English suitable for workplace communication."
         case .church:
-            return "Rewrite the given text in warm pastoral language for a church or Christian ministry community."
+            return "Rewrite the given text in rich Biblical language — draw from the style and tone of scripture, with reverence and spiritual weight. After the rewritten text, add a separator (---), then suggest 1–2 relevant Bible verses that support or illuminate the message. Format: [Book Chapter:Verse] — verse text."
         case .socialMedia:
             return "Rewrite the given text as an engaging social media post. Hook in the first line, short punchy sentences."
         case .personal:
