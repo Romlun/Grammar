@@ -24,152 +24,222 @@ struct ContentViewiOS: View {
     @State private var selectedTone: ToneModifier? = nil
     @State private var resultText       = ""
     @State private var isLoading        = false
-    @State private var showResult       = false
     @State private var showSelection    = false
     @State private var showSettings     = false
     @FocusState private var editorFocused: Bool
+    @Environment(\.colorScheme) private var scheme
+
+    private var titleColor: Color {
+        scheme == .dark
+            ? Color(red: 167/255, green: 139/255, blue: 250/255)
+            : Color(red: 76/255, green: 29/255, blue: 149/255)
+    }
+    private var resultCardBg: Color { appPurple.opacity(scheme == .dark ? 0.18 : 0.08) }
+    private var pillFill:     Color { appPurple.opacity(scheme == .dark ? 0.22 : 0.12) }
 
     private var showTonePills: Bool {
         if case .context = selection { return true }
         return selection == .tool(.emailPolish)
     }
+    private var hasResult: Bool { !resultText.isEmpty || isLoading }
+
+    private var emailComponents: (subject: String, body: String)? {
+        guard selection == .tool(.emailPolish),
+              resultText.hasPrefix("SUBJECT:") else { return nil }
+        let lines   = resultText.components(separatedBy: "\n")
+        let subject = lines.first?
+            .replacingOccurrences(of: "SUBJECT:", with: "")
+            .trimmingCharacters(in: .whitespaces) ?? ""
+        let body    = lines.dropFirst().joined(separator: "\n")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        return (subject, body)
+    }
 
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                selectionButton
-                Divider()
-                editor
-                Divider()
-                if showTonePills { tonePills }
+                modePill
+                inputArea
+                if hasResult {
+                    Divider()
+                    resultArea
+                }
             }
-            .navigationTitle("WritePro")
             .navigationBarTitleDisplayMode(.inline)
-            .safeAreaInset(edge: .bottom) {
-                improveButton
-                    .background(.ultraThinMaterial)
-            }
             .toolbar {
-                ToolbarItem(placement: .keyboard) {
-                    HStack {
-                        Spacer()
-                        Button("Done") { editorFocused = false }
-                            .fontWeight(.semibold)
-                    }
+                ToolbarItem(placement: .principal) {
+                    Text("WritePro")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundStyle(titleColor)
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button { showSettings = true } label: {
-                        Image(systemName: "gear")
+                        Image(systemName: "gear").foregroundStyle(appPurple)
                     }
                 }
+                ToolbarItem(placement: .keyboard) {
+                    HStack { Spacer(); Button("Done") { editorFocused = false }.fontWeight(.semibold) }
+                }
             }
+            .safeAreaInset(edge: .bottom) { bottomBar }
             .sheet(isPresented: $showSelection) {
-                SelectionSheetiOS(selection: $selection) { showSelection = false }
+                SelectionSheetiOS(selection: $selection) {
+                    showSelection = false; selectedTone = nil
+                }
             }
-            .sheet(isPresented: $showResult) {
-                ResultSheetiOS(
-                    resultText: $resultText,
-                    inputText:  $inputText,
-                    isLoading:  $isLoading,
-                    selection:  selection,
-                    onTryAgain: { showResult = false; runImprove() }
-                )
-            }
-            .sheet(isPresented: $showSettings) {
-                SettingsView()
-            }
-            .background(Color(.systemBackground).ignoresSafeArea())
+            .sheet(isPresented: $showSettings) { SettingsView() }
+            .background(Color(.systemBackground).ignoresSafeArea(.all))
         }
     }
 
-    private var selectionButton: some View {
-        Button { showSelection = true } label: {
-            HStack(spacing: 6) {
-                Image(systemName: selection.icon).font(.system(size: 13))
-                Text(selection.label).font(.system(size: 14, weight: .medium))
-                Image(systemName: "chevron.down").font(.system(size: 11))
+    private var modePill: some View {
+        HStack {
+            Button { showSelection = true } label: {
+                HStack(spacing: 6) {
+                    Image(systemName: selection.icon).font(.system(size: 13, weight: .medium))
+                    Text(selection.label).font(.system(size: 14, weight: .semibold))
+                    Image(systemName: "chevron.down").font(.system(size: 11, weight: .semibold))
+                }
+                .padding(.horizontal, 14).padding(.vertical, 8)
+                .background(appPurple).foregroundStyle(.white).clipShape(Capsule())
             }
-            .padding(.horizontal, 14)
-            .padding(.vertical, 8)
-            .background(Color(.secondarySystemBackground))
-            .foregroundStyle(appPurple)
-            .clipShape(Capsule())
+            Spacer()
         }
-        .buttonStyle(.plain)
-        .padding(.vertical, 10)
+        .padding(.horizontal, 16).padding(.top, 8).padding(.bottom, 4)
     }
 
-    private var editor: some View {
+    private var inputArea: some View {
         ZStack(alignment: .topLeading) {
             TextEditor(text: $inputText)
                 .font(.body)
-                .padding(8)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .scrollContentBackground(.hidden)
+                .padding(.horizontal, 12).padding(.top, 8)
                 .focused($editorFocused)
             if inputText.isEmpty {
                 Text("Paste or type your text here…")
                     .font(.body)
                     .foregroundStyle(Color(.placeholderText))
-                    .padding(.top, 16)
-                    .padding(.leading, 13)
+                    .padding(.top, 16).padding(.leading, 17)
                     .allowsHitTesting(false)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
-    private var tonePills: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 6) {
-                ForEach(ToneModifier.allCases) { tone in
-                    Button {
-                        selectedTone = selectedTone == tone ? nil : tone
-                    } label: {
-                        Text(tone.label)
-                            .font(.system(size: 12))
-                            .padding(.vertical, 5)
-                            .padding(.horizontal, 12)
-                            .background(selectedTone == tone ? appPurple.opacity(0.15) : Color.clear)
-                            .clipShape(Capsule())
-                            .overlay(Capsule().stroke(
-                                selectedTone == tone ? appPurple : Color(.separator),
-                                lineWidth: 1
-                            ))
-                            .foregroundStyle(selectedTone == tone ? appPurple : .secondary)
-                    }
-                    .buttonStyle(.plain)
+    private var resultArea: some View {
+        ScrollView {
+            if isLoading && resultText.isEmpty {
+                HStack { Spacer(); ProgressView().padding(.top, 24); Spacer() }
+            } else if let email = emailComponents {
+                emailCard(email)
+            } else {
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("RESULT")
+                        .font(.system(size: 11, weight: .semibold))
+                        .foregroundStyle(appPurple)
+                    Text(resultText)
+                        .font(.body).textSelection(.enabled)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    actionRow(copyText: resultText, useAsInput: resultText)
                 }
+                .padding(14)
+                .background(resultCardBg)
+                .clipShape(RoundedRectangle(cornerRadius: 16))
+                .padding(12)
             }
-            .padding(.horizontal, 12)
         }
-        .frame(height: 44)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
-    private var improveButton: some View {
-        Button { runImprove() } label: {
-            Group {
-                if isLoading {
-                    ProgressView().tint(.white)
-                } else {
-                    Text("Improve")
-                        .font(.system(size: 16, weight: .semibold))
+    private func emailCard(_ email: (subject: String, body: String)) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("SUBJECT")
+                    .font(.system(size: 11, weight: .semibold))
+                    .foregroundStyle(appPurple)
+                HStack {
+                    Text(email.subject)
+                        .font(.system(size: 15, weight: .medium))
+                        .textSelection(.enabled)
+                    Spacer()
+                    Button { UIPasteboard.general.string = email.subject } label: {
+                        Image(systemName: "doc.on.doc").foregroundStyle(.secondary)
+                    }
                 }
             }
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 14)
-            .background(inputText.isEmpty || isLoading ? appPurple.opacity(0.4) : appPurple)
-            .foregroundStyle(.white)
-            .cornerRadius(12)
+            Divider()
+            Text(email.body).font(.body).textSelection(.enabled)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            actionRow(copyText: email.body, useAsInput: email.body)
         }
-        .disabled(inputText.isEmpty || isLoading)
-        .padding(16)
+        .padding(14)
+        .background(resultCardBg)
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .padding(12)
+    }
+
+    private func actionRow(copyText: String, useAsInput: String) -> some View {
+        HStack(spacing: 16) {
+            Button { runImprove() } label: {
+                Label("Try Again", systemImage: "arrow.clockwise").font(.system(size: 13))
+            }
+            Button {
+                inputText = useAsInput; resultText = ""
+            } label: {
+                Label("Use as Input", systemImage: "arrow.uturn.left").font(.system(size: 13))
+            }
+            Spacer()
+            Button { UIPasteboard.general.string = copyText } label: {
+                Label("Copy", systemImage: "doc.on.doc").font(.system(size: 13))
+            }
+        }
+        .foregroundStyle(appPurple)
+        .padding(.top, 4)
+    }
+
+    private var bottomBar: some View {
+        VStack(spacing: 10) {
+            if showTonePills {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 6) {
+                        ForEach(ToneModifier.allCases) { tone in
+                            Button {
+                                selectedTone = selectedTone == tone ? nil : tone
+                            } label: {
+                                Text(tone.label)
+                                    .font(.system(size: 12, weight: .medium))
+                                    .padding(.vertical, 6).padding(.horizontal, 12)
+                                    .background(selectedTone == tone ? appPurple : pillFill)
+                                    .foregroundStyle(selectedTone == tone ? Color.white : appPurple)
+                                    .clipShape(Capsule())
+                            }
+                        }
+                    }
+                    .padding(.horizontal, 16)
+                }
+            }
+            Button { runImprove() } label: {
+                Group {
+                    if isLoading { ProgressView().tint(.white) }
+                    else { Text("Improve").font(.system(size: 16, weight: .semibold)) }
+                }
+                .frame(maxWidth: .infinity).padding(.vertical, 14)
+                .background(inputText.isEmpty || isLoading ? appPurple.opacity(0.4) : appPurple)
+                .foregroundStyle(.white)
+                .clipShape(RoundedRectangle(cornerRadius: 14))
+            }
+            .disabled(inputText.isEmpty || isLoading)
+            .padding(.horizontal, 16)
+        }
+        .padding(.vertical, 10)
+        .background(.ultraThinMaterial)
     }
 
     private func runImprove() {
+        editorFocused = false
         Task {
             isLoading = true
             resultText = ""
-            showResult = true
             let (system, user) = PromptBuilder.build(
                 selection: selection, tone: selectedTone, input: inputText
             )
@@ -196,8 +266,7 @@ struct SelectionSheetiOS: View {
                 Section("Context") {
                     ForEach(StyleContext.allCases) { style in
                         Button {
-                            selection = .context(style)
-                            onSelect()
+                            selection = .context(style); onSelect()
                         } label: {
                             Label(style.label, systemImage: style.icon)
                                 .foregroundStyle(selection == .context(style) ? appPurple : Color.primary)
@@ -207,8 +276,7 @@ struct SelectionSheetiOS: View {
                 Section("Tools") {
                     ForEach(Tool.allCases) { tool in
                         Button {
-                            selection = .tool(tool)
-                            onSelect()
+                            selection = .tool(tool); onSelect()
                         } label: {
                             Label(tool.label, systemImage: tool.icon)
                                 .foregroundStyle(selection == .tool(tool) ? appPurple : Color.primary)
@@ -219,125 +287,6 @@ struct SelectionSheetiOS: View {
             .navigationTitle("Select Mode")
             .navigationBarTitleDisplayMode(.inline)
         }
-    }
-}
-
-struct ResultSheetiOS: View {
-    @Binding var resultText: String
-    @Binding var inputText:  String
-    @Binding var isLoading:  Bool
-    let selection: SidebarSelection
-    var onTryAgain: () -> Void
-    @Environment(\.dismiss) private var dismiss
-    private let appPurple = Color(red: 124/255, green: 58/255, blue: 237/255)
-
-    private var emailComponents: (subject: String, body: String)? {
-        guard selection == .tool(.emailPolish),
-              resultText.hasPrefix("SUBJECT:") else { return nil }
-        let lines   = resultText.components(separatedBy: "\n")
-        let subject = lines.first?
-            .replacingOccurrences(of: "SUBJECT:", with: "")
-            .trimmingCharacters(in: .whitespaces) ?? ""
-        let body    = lines.dropFirst().joined(separator: "\n")
-            .trimmingCharacters(in: .whitespacesAndNewlines)
-        return (subject, body)
-    }
-
-    var body: some View {
-        NavigationStack {
-            Group {
-                if isLoading && resultText.isEmpty {
-                    ProgressView("Improving…")
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                } else if let email = emailComponents {
-                    emailView(email: email)
-                } else {
-                    plainResultView
-                }
-            }
-            .navigationTitle("Result")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Edit") { dismiss() }
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button { UIPasteboard.general.string = resultText } label: {
-                        Image(systemName: "doc.on.doc")
-                    }
-                }
-            }
-        }
-    }
-
-    private var plainResultView: some View {
-        VStack(spacing: 0) {
-            ScrollView {
-                Text(resultText.isEmpty ? "Waiting for result…" : resultText)
-                    .foregroundStyle(resultText.isEmpty ? .secondary : .primary)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(16)
-                    .textSelection(.enabled)
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            if !resultText.isEmpty {
-                Divider()
-                HStack(spacing: 10) {
-                    actionButton("Try Again", icon: "arrow.clockwise") { onTryAgain() }
-                    actionButton("Use as Input", icon: "arrow.uturn.left") {
-                        inputText = resultText; dismiss()
-                    }
-                }
-                .padding(12)
-            }
-        }
-    }
-
-    private func emailView(email: (subject: String, body: String)) -> some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HStack {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Subject").font(.caption).foregroundStyle(.secondary)
-                    Text(email.subject)
-                        .font(.system(size: 15, weight: .medium))
-                        .textSelection(.enabled)
-                }
-                Spacer()
-                Button { UIPasteboard.general.string = email.subject } label: {
-                    Image(systemName: "doc.on.doc").foregroundStyle(.secondary)
-                }
-            }
-            .padding(16)
-            .background(Color(.secondarySystemBackground))
-            Divider()
-            ScrollView {
-                Text(email.body)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(16)
-                    .textSelection(.enabled)
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            Divider()
-            HStack(spacing: 10) {
-                actionButton("Try Again", icon: "arrow.clockwise") { onTryAgain() }
-                actionButton("Copy Body", icon: "doc.on.doc") {
-                    UIPasteboard.general.string = email.body
-                }
-            }
-            .padding(12)
-        }
-    }
-
-    private func actionButton(_ title: String, icon: String, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            Label(title, systemImage: icon)
-                .font(.system(size: 14))
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 12)
-                .background(Color(.secondarySystemBackground))
-                .cornerRadius(10)
-        }
-        .buttonStyle(.plain)
     }
 }
 #endif
