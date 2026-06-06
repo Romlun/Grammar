@@ -28,6 +28,7 @@ struct GrammarTextView: NSViewRepresentable {
     }
 
     func updateNSView(_ scrollView: NSScrollView, context: Context) {
+        context.coordinator.parent = self
         let tv = scrollView.documentView as! NSTextView
         if tv.string != text {
             tv.string = text
