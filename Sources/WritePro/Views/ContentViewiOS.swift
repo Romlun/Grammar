@@ -27,6 +27,7 @@ struct ContentViewiOS: View {
     @State private var showResult       = false
     @State private var showSelection    = false
     @State private var showSettings     = false
+    @FocusState private var editorFocused: Bool
 
     private var showTonePills: Bool {
         if case .context = selection { return true }
@@ -41,11 +42,21 @@ struct ContentViewiOS: View {
                 editor
                 Divider()
                 if showTonePills { tonePills }
-                improveButton
             }
             .navigationTitle("WritePro")
             .navigationBarTitleDisplayMode(.inline)
+            .safeAreaInset(edge: .bottom) {
+                improveButton
+                    .background(.ultraThinMaterial)
+            }
             .toolbar {
+                ToolbarItem(placement: .keyboard) {
+                    HStack {
+                        Spacer()
+                        Button("Done") { editorFocused = false }
+                            .fontWeight(.semibold)
+                    }
+                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button { showSettings = true } label: {
                         Image(systemName: "gear")
@@ -93,6 +104,7 @@ struct ContentViewiOS: View {
                 .font(.body)
                 .padding(8)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .focused($editorFocused)
             if inputText.isEmpty {
                 Text("Paste or type your text here…")
                     .font(.body)
