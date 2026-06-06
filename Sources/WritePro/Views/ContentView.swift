@@ -92,7 +92,7 @@ struct ContentView: View {
     // MARK: - Result panel
 
     private var resultPanel: some View {
-        Group {
+        VStack(spacing: 0) {
             if isLoading {
                 ProgressView()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -103,6 +103,29 @@ struct ContentView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(16)
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
+
+            if !resultText.isEmpty && !isLoading {
+                HStack {
+                    Spacer()
+                    Button {
+                        NSPasteboard.general.clearContents()
+                        NSPasteboard.general.setString(resultText, forType: .string)
+                    } label: {
+                        HStack(spacing: 6) {
+                            Image(systemName: "doc.on.doc")
+                            Text("Copy")
+                        }
+                        .font(.system(size: 12))
+                        .padding(.vertical, 6)
+                        .padding(.horizontal, 12)
+                    }
+                    .buttonStyle(.plain)
+                    .foregroundStyle(Color(NSColor.secondaryLabelColor))
+                }
+                .padding(.horizontal, 12)
+                .padding(.bottom, 8)
             }
         }
         .background(Color(NSColor.windowBackgroundColor))

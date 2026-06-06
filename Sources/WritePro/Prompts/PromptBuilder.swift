@@ -2,8 +2,11 @@ import Foundation
 
 struct PromptBuilder {
     static func build(action: Action, style: StyleContext, input: String) -> (system: String, user: String) {
-        let system = [actionPrompt(action), styleOverlay(style), "Return only the result text, no commentary."]
-            .joined(separator: "\n\n")
+        let system = [
+            actionPrompt(action),
+            "IMPORTANT — Style requirement: \(styleOverlay(style))",
+            "Return only the result text, no commentary."
+        ].joined(separator: "\n\n")
         return (system: system, user: input)
     }
 
@@ -39,22 +42,22 @@ struct PromptBuilder {
     private static func styleOverlay(_ style: StyleContext) -> String {
         switch style {
         case .everyday:
-            return "Use casual, natural, conversational English. Friendly and warm, like texting a close friend. Short sentences are fine. No stiffness."
+            return "Rewrite for casual everyday conversation. Short sentences, friendly tone, like texting a friend."
 
         case .professional:
-            return "Use polished workplace English. Clear, respectful, and direct. Suitable for emails, reports, and formal communication. Avoid slang."
+            return "Rewrite in polished professional English. Clear, respectful, formal. Suitable for workplace emails."
 
         case .church:
-            return "Use warm, pastoral English appropriate for a church or Christian ministry community. Sincere, welcoming, and spiritually grounded. Avoid corporate language."
+            return "Rewrite in warm pastoral language for a church community. Sincere, welcoming, spiritually grounded."
 
         case .socialMedia:
-            return "Write for social media. Be engaging, punchy, and human. Hook the reader in the first line. Use short paragraphs. Conversational but purposeful. Suitable for LinkedIn, Instagram, or X."
+            return "Rewrite as a social media post. Hook in the first line, short punchy sentences, engaging and human. Platform-agnostic."
 
         case .personal:
-            return "Use warm, sincere, emotionally present language. Suitable for personal letters, thank-you notes, apologies, or heartfelt messages. Genuine — not performative."
+            return "Rewrite as a warm personal message. Sincere, emotionally present, genuine — not formal."
 
         case .coverLetter:
-            return "Use confident, professional English appropriate for job applications. Achievement-focused, specific, and persuasive. Formal but not stiff. First person."
+            return "Rewrite in cover letter style. Confident, achievement-focused, professional but personal. First person."
         }
     }
 }
