@@ -2,18 +2,10 @@ import Foundation
 
 actor GrammarCheckService {
     static let shared = GrammarCheckService()
-    private var checkTask: Task<Void, Never>?
 
     private init() {}
 
-    func scheduleCheck(text: String, apiKey: String) async -> [GrammarMistake] {
-        checkTask?.cancel()
-        try? await Task.sleep(nanoseconds: 1_500_000_000)
-        if Task.isCancelled { return [] }
-        return await check(text: text, apiKey: apiKey)
-    }
-
-    private func check(text: String, apiKey: String) async -> [GrammarMistake] {
+    func run(text: String, apiKey: String) async -> [GrammarMistake] {
         guard !text.trimmingCharacters(in: .whitespaces).isEmpty else { return [] }
 
         let systemPrompt = """
@@ -48,19 +40,25 @@ actor GrammarCheckService {
         guard let httpBody = try? JSONSerialization.data(withJSONObject: body) else { return [] }
         request.httpBody = httpBody
 
-        guard let (data, _) = try? await URLSession.shared.data(for: request),
-              let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-              let content = json["content"] as? [[String: Any]],
-              let responseText = content.first?["text"] as? String,
-              let mistakesData = responseText.data(using: .utf8),
-              let mistakesJSON = try? JSONSerialization.jsonObject(with: mistakesData) as? [[String: String]]
-        else { return [] }
-
-        return mistakesJSON.compactMap { dict in
-            guard let phrase = dict["phrase"],
-                  let issue = dict["issue"],
-                  let suggestion = dict["suggestion"] else { return nil }
-            return GrammarMistake(phrase: phrase, issue: issue, suggestion: suggestion)
+        do {
+            let (data, _) = try await URLSession.shared.data(for: request)
+            print("[Grammar] response:", String(data: data, encoding: .utf8) ?? "nil")
+            guard let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+                  let content = json["content"] as? [[String: Any]],
+                  let responseText = content.first?["text"] as? String else { return [] }
+            let clean = responseText.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard let mistakesData = clean.data(using: .utf8),
+                  let mistakesJSON = try JSONSerialization.jsonObject(with: mistakesData) as? [[String: String]]
+            else { return [] }
+            return mistakesJSON.compactMap { dict in
+                guard let phrase = dict["phrase"],
+                      let issue = dict["issue"],
+                      let suggestion = dict["suggestion"] else { return nil }
+                return GrammarMistake(phrase: phrase, issue: issue, suggestion: suggestion)
+            }
+        } catch {
+            print("[Grammar] error:", error)
+            return []
         }
     }
 }

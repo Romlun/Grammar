@@ -18,6 +18,7 @@ struct ContentView: View {
     @State private var mistakes: [GrammarMistake] = []
     @State private var activeMistake: GrammarMistake? = nil
     @State private var mistakePopoverWindow: NSWindow? = nil
+    @State private var grammarTimer: Timer? = nil
 
     var body: some View {
         HStack(spacing: 0) {
@@ -138,10 +139,10 @@ struct ContentView: View {
                 }
             )
             .onChange(of: inputText) { _, newValue in
-                if grammarEnabled {
+                guard grammarEnabled else { return }
+                grammarTimer?.invalidate()
+                grammarTimer = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false) { _ in
                     Task { await checkGrammar(text: newValue) }
-                } else {
-                    mistakes = []
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -305,8 +306,11 @@ struct ContentView: View {
     // MARK: - Grammar check
 
     func checkGrammar(text: String) async {
-        guard let apiKey = KeychainService.load(), !apiKey.isEmpty else { return }
-        var results = await GrammarCheckService.shared.scheduleCheck(text: text, apiKey: apiKey)
+        guard let apiKey = KeychainService.load(), !apiKey.isEmpty else {
+            print("[Grammar] no API key")
+            return
+        }
+        var results = await GrammarCheckService.shared.run(text: text, apiKey: apiKey)
         for i in results.indices {
             if let range = text.range(of: results[i].phrase) {
                 results[i].range = NSRange(range, in: text)
