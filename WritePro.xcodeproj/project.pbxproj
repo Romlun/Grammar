@@ -11,6 +11,8 @@
 		2825C991E01CBD420BB1364E /* WritePro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB1D6622F7BC0E714CEC0D6 /* WritePro.swift */; };
 		33F1CC66071BDEAF967E1BD0 /* StylePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24003923167410076FC8DFD /* StylePickerView.swift */; };
 		4E70A28949AE5F753791CF62 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661055AE3D6864A20C3211CF /* KeychainService.swift */; };
+		76F49E7170BADB602B0D7417 /* PromptBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CBD562CFFAA709E685BAA5 /* PromptBuilder.swift */; };
+		78B11FD6615DE4F37CB391FB /* ClaudeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D286286566132385DC236D42 /* ClaudeService.swift */; };
 		CB1A57FD0E3ECC0DBA5F9F17 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D29E83F1E9BFBD2E9E69893 /* ContentView.swift */; };
 		D8B4F5AAB1890D9786164151 /* ActionPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357EFB04162D325B9425B0F6 /* ActionPickerView.swift */; };
 		E80B844572629B6C898F1E2C /* StyleContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278EDDC1F9B30DB07BC6215E /* StyleContext.swift */; };
@@ -20,10 +22,12 @@
 		1823A0E32313F1813C9AAA25 /* WritePro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WritePro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		278EDDC1F9B30DB07BC6215E /* StyleContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleContext.swift; sourceTree = "<group>"; };
 		285FCE876D7B7381CF795174 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
+		31CBD562CFFAA709E685BAA5 /* PromptBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptBuilder.swift; sourceTree = "<group>"; };
 		357EFB04162D325B9425B0F6 /* ActionPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionPickerView.swift; sourceTree = "<group>"; };
 		661055AE3D6864A20C3211CF /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
 		8D29E83F1E9BFBD2E9E69893 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9EB1D6622F7BC0E714CEC0D6 /* WritePro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritePro.swift; sourceTree = "<group>"; };
+		D286286566132385DC236D42 /* ClaudeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeService.swift; sourceTree = "<group>"; };
 		F24003923167410076FC8DFD /* StylePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StylePickerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -39,6 +43,7 @@
 		278ED0B8879DCA803ECAB6AB /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				D286286566132385DC236D42 /* ClaudeService.swift */,
 				661055AE3D6864A20C3211CF /* KeychainService.swift */,
 			);
 			path = Services;
@@ -62,6 +67,14 @@
 			);
 			sourceTree = "<group>";
 		};
+		B41F706BFA93E1109161019B /* Prompts */ = {
+			isa = PBXGroup;
+			children = (
+				31CBD562CFFAA709E685BAA5 /* PromptBuilder.swift */,
+			);
+			path = Prompts;
+			sourceTree = "<group>";
+		};
 		CA2046E26916A675C5C0992A /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -76,6 +89,7 @@
 			children = (
 				9EB1D6622F7BC0E714CEC0D6 /* WritePro.swift */,
 				CA2046E26916A675C5C0992A /* Models */,
+				B41F706BFA93E1109161019B /* Prompts */,
 				278ED0B8879DCA803ECAB6AB /* Services */,
 				91758B66B14AE9BB72026D70 /* Views */,
 			);
@@ -140,8 +154,10 @@
 			files = (
 				1CCF49DDB8E2AB40423087BB /* Action.swift in Sources */,
 				D8B4F5AAB1890D9786164151 /* ActionPickerView.swift in Sources */,
+				78B11FD6615DE4F37CB391FB /* ClaudeService.swift in Sources */,
 				CB1A57FD0E3ECC0DBA5F9F17 /* ContentView.swift in Sources */,
 				4E70A28949AE5F753791CF62 /* KeychainService.swift in Sources */,
+				76F49E7170BADB602B0D7417 /* PromptBuilder.swift in Sources */,
 				E80B844572629B6C898F1E2C /* StyleContext.swift in Sources */,
 				33F1CC66071BDEAF967E1BD0 /* StylePickerView.swift in Sources */,
 				2825C991E01CBD420BB1364E /* WritePro.swift in Sources */,
