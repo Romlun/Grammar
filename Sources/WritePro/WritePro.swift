@@ -1,3 +1,4 @@
+#if os(macOS)
 import SwiftUI
 import AppKit
 
@@ -25,3 +26,4 @@ struct WritePro: App {
         .menuBarExtraStyle(.menu)
     }
 }
+#endif
