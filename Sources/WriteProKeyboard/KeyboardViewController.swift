@@ -22,7 +22,7 @@ class KeyboardViewController: UIInputViewController {
                              for: .allTouchEvents)
 
         let typeButton = UIButton(type: .system)
-        typeButton.setTitle("Type "hi" (test)", for: .normal)
+        typeButton.setTitle("Type 'hi' (test)", for: .normal)
         typeButton.translatesAutoresizingMaskIntoConstraints = false
         typeButton.addTarget(self, action: #selector(insertTest), for: .touchUpInside)
 
