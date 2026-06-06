@@ -19,6 +19,7 @@ struct ContentView: View {
     @State private var activeMistake: GrammarMistake? = nil
     @State private var mistakePopoverWindow: NSWindow? = nil
     @State private var grammarTimer: Timer? = nil
+    @State private var grammarStatus: String = "idle"
 
     var body: some View {
         HStack(spacing: 0) {
@@ -139,9 +140,11 @@ struct ContentView: View {
                 }
             )
             .onChange(of: inputText) { _, newValue in
+                grammarStatus = "onChange fired, enabled=\(grammarEnabled)"
                 guard grammarEnabled else { return }
                 grammarTimer?.invalidate()
                 grammarTimer = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false) { _ in
+                    grammarStatus = "timer fired, checking..."
                     Task { await checkGrammar(text: newValue) }
                 }
             }
@@ -149,6 +152,10 @@ struct ContentView: View {
 
             if !inputText.isEmpty {
                 HStack {
+                    Text(grammarStatus)
+                        .font(.system(size: 10))
+                        .foregroundStyle(.blue)
+                        .padding(.leading, 10)
                     Spacer()
                     Text("\(inputText.split(separator: " ").count) words")
                         .font(.system(size: 11))
@@ -307,16 +314,20 @@ struct ContentView: View {
 
     func checkGrammar(text: String) async {
         guard let apiKey = KeychainService.load(), !apiKey.isEmpty else {
-            print("[Grammar] no API key")
+            await MainActor.run { grammarStatus = "no API key" }
             return
         }
+        await MainActor.run { grammarStatus = "calling API..." }
         var results = await GrammarCheckService.shared.run(text: text, apiKey: apiKey)
         for i in results.indices {
             if let range = text.range(of: results[i].phrase) {
                 results[i].range = NSRange(range, in: text)
             }
         }
-        await MainActor.run { mistakes = results }
+        await MainActor.run {
+            mistakes = results
+            grammarStatus = "done — \(results.count) mistake(s) found"
+        }
     }
 
     func showMistakePopover(for mistake: GrammarMistake, at rect: NSRect) {
