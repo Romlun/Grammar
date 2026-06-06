@@ -17,10 +17,10 @@ struct PromptBuilder {
     private static func actionPrompt(_ action: Action) -> String {
         switch action {
         case .quickPolish:
-            return "Fix all grammar, spelling, and punctuation errors, then improve naturalness and flow so the text reads like fluent, confident English written by a native speaker. Preserve the original meaning and intent exactly. Do not add new ideas or change the structure unless needed for fluency."
+            return "Fix all grammar, spelling, and punctuation errors, then improve naturalness and flow so the text reads like fluent, confident English written by a native speaker. Preserve the original meaning and intent exactly. Do not add new ideas or change the structure unless needed for fluency. Pay close attention to comma placement: add commas before coordinating conjunctions in compound sentences (for, and, nor, but, or, yet, so), after introductory words or phrases, and between items in a list."
 
         case .fixGrammar:
-            return "You are a grammar correction assistant. Fix all spelling, punctuation, and grammatical errors in the user's text. Preserve the original meaning, tone, and structure as closely as possible. Only correct errors — do not rephrase or rewrite."
+            return "Fix all grammar, spelling, punctuation, and comma errors in the text. Apply standard comma rules: use a comma before coordinating conjunctions (for, and, nor, but, or, yet, so) joining two independent clauses; after introductory words, phrases, or clauses; between items in a series; and to set off nonessential phrases. Do not change any wording that is already correct. Return only the corrected text."
 
         case .makeProfessional:
             return "You are a professional writing assistant. Rewrite the user's text to sound polished, confident, and suitable for a professional context. Use clear, precise language. Eliminate casual phrasing, slang, and informal contractions."
