@@ -13,6 +13,12 @@ struct ContentView: View {
     @State private var isLoading: Bool = false
     @State private var showSettings: Bool = false
 
+    // Grammar check
+    @State private var grammarEnabled: Bool = UserDefaults.standard.bool(forKey: "grammarEnabled")
+    @State private var mistakes: [GrammarMistake] = []
+    @State private var activeMistake: GrammarMistake? = nil
+    @State private var mistakePopoverWindow: NSWindow? = nil
+
     var body: some View {
         HStack(spacing: 0) {
             sidebar
@@ -28,6 +34,17 @@ struct ContentView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .toolbar {
+            ToolbarItem(placement: .automatic) {
+                Button {
+                    grammarEnabled.toggle()
+                    UserDefaults.standard.set(grammarEnabled, forKey: "grammarEnabled")
+                    if !grammarEnabled { mistakes = [] }
+                } label: {
+                    Image(systemName: grammarEnabled ? "text.badge.checkmark" : "text.badge.xmark")
+                        .foregroundStyle(grammarEnabled ? purple : Color(NSColor.secondaryLabelColor))
+                }
+                .help(grammarEnabled ? "Grammar check on" : "Grammar check off")
+            }
             ToolbarItem(placement: .automatic) {
                 Button { showSettings = true } label: {
                     Image(systemName: "gear")
@@ -112,12 +129,22 @@ struct ContentView: View {
 
     private var editorPanel: some View {
         VStack(spacing: 0) {
-            TextEditor(text: $inputText)
-                .font(.body)
-                .padding(8)
-                .scrollContentBackground(.hidden)
-                .background(Color(NSColor.textBackgroundColor))
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            GrammarTextView(
+                text: $inputText,
+                mistakes: grammarEnabled ? mistakes : [],
+                onMistakeTapped: { mistake, rect in
+                    activeMistake = mistake
+                    showMistakePopover(for: mistake, at: rect)
+                }
+            )
+            .onChange(of: inputText) { _, newValue in
+                if grammarEnabled {
+                    Task { await checkGrammar(text: newValue) }
+                } else {
+                    mistakes = []
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
 
             if !inputText.isEmpty {
                 HStack {
@@ -273,5 +300,49 @@ struct ContentView: View {
             }
             isLoading = false
         }
+    }
+
+    // MARK: - Grammar check
+
+    func checkGrammar(text: String) async {
+        guard let apiKey = KeychainService.load(), !apiKey.isEmpty else { return }
+        var results = await GrammarCheckService.shared.scheduleCheck(text: text, apiKey: apiKey)
+        for i in results.indices {
+            if let range = text.range(of: results[i].phrase) {
+                results[i].range = NSRange(range, in: text)
+            }
+        }
+        await MainActor.run { mistakes = results }
+    }
+
+    func showMistakePopover(for mistake: GrammarMistake, at rect: NSRect) {
+        mistakePopoverWindow?.close()
+        let popover = NSWindow(
+            contentRect: NSRect(x: rect.minX, y: rect.minY - 160, width: 280, height: 160),
+            styleMask: [.titled, .closable, .fullSizeContentView],
+            backing: .buffered,
+            defer: false
+        )
+        popover.title = ""
+        popover.titlebarAppearsTransparent = true
+        popover.level = .floating
+        popover.isReleasedWhenClosed = false
+        popover.contentView = NSHostingView(rootView: MistakePopoverView(
+            mistake: mistake,
+            onApply: {
+                inputText = (inputText as NSString).replacingCharacters(
+                    in: mistake.range ?? NSRange(),
+                    with: mistake.suggestion
+                )
+                popover.close()
+                mistakePopoverWindow = nil
+            },
+            onDismiss: {
+                popover.close()
+                mistakePopoverWindow = nil
+            }
+        ))
+        popover.makeKeyAndOrderFront(nil)
+        mistakePopoverWindow = popover
     }
 }

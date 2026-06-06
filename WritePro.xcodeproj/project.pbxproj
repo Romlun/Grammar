@@ -11,16 +11,20 @@
 		1FB46C0A4D9525E1875516C9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115943B5874D4E18D792F2C5 /* SettingsView.swift */; };
 		25CB4947D7756520C2C070ED /* MenuBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A289E3C16DA355F8D9B669 /* MenuBarView.swift */; };
 		2825C991E01CBD420BB1364E /* WritePro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB1D6622F7BC0E714CEC0D6 /* WritePro.swift */; };
+		49307287D8E878AFAA071E46 /* MistakePopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE684C49670C530F58EA8E94 /* MistakePopoverView.swift */; };
 		4E70A28949AE5F753791CF62 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661055AE3D6864A20C3211CF /* KeychainService.swift */; };
 		58D055E88BCB9BCF3561A96C /* ToneModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A641B35377A03D84A7E9A6 /* ToneModifier.swift */; };
+		5DF94C6D93205A28F99DA81A /* GrammarTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426E09123458E5AC827047BD /* GrammarTextView.swift */; };
 		6ECBAEB648722D0EDFE5A48E /* FloatingPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20424994D28BD99FE8815B39 /* FloatingPanelView.swift */; };
 		76F49E7170BADB602B0D7417 /* PromptBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CBD562CFFAA709E685BAA5 /* PromptBuilder.swift */; };
 		78B11FD6615DE4F37CB391FB /* ClaudeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D286286566132385DC236D42 /* ClaudeService.swift */; };
 		7ADB460CD083654CFB1C45BC /* ShortcutService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF6B7D5CFAFA88A6890DCF3 /* ShortcutService.swift */; };
+		92D2FD0B9E747F75E2881680 /* GrammarCheckService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBEF6DBFFEA57E20CBE4ED7 /* GrammarCheckService.swift */; };
 		AF675C8CA84C34D3E6214049 /* SidebarSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A7CE791C5347E59E856FC6 /* SidebarSelection.swift */; };
 		CB1A57FD0E3ECC0DBA5F9F17 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D29E83F1E9BFBD2E9E69893 /* ContentView.swift */; };
 		D93EC19DBD96D35777ABD08B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACC61F760ED3763483F7A3C4 /* Assets.xcassets */; };
 		DD38B9E29FCE90A6556C9569 /* PanelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1979B06A341E9897E420840 /* PanelService.swift */; };
+		DE19771B2691E01199778DC5 /* GrammarMistake.swift in Sources */ = {isa = PBXBuildFile; fileRef = A565C9FF66CD6DEDF1EB8BC3 /* GrammarMistake.swift */; };
 		E80B844572629B6C898F1E2C /* StyleContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278EDDC1F9B30DB07BC6215E /* StyleContext.swift */; };
 /* End PBXBuildFile section */
 
@@ -31,12 +35,16 @@
 		278EDDC1F9B30DB07BC6215E /* StyleContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleContext.swift; sourceTree = "<group>"; };
 		285FCE876D7B7381CF795174 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		31CBD562CFFAA709E685BAA5 /* PromptBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptBuilder.swift; sourceTree = "<group>"; };
+		426E09123458E5AC827047BD /* GrammarTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrammarTextView.swift; sourceTree = "<group>"; };
 		46A641B35377A03D84A7E9A6 /* ToneModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToneModifier.swift; sourceTree = "<group>"; };
 		661055AE3D6864A20C3211CF /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
 		8D29E83F1E9BFBD2E9E69893 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9EB1D6622F7BC0E714CEC0D6 /* WritePro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritePro.swift; sourceTree = "<group>"; };
+		A565C9FF66CD6DEDF1EB8BC3 /* GrammarMistake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrammarMistake.swift; sourceTree = "<group>"; };
+		ABBEF6DBFFEA57E20CBE4ED7 /* GrammarCheckService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrammarCheckService.swift; sourceTree = "<group>"; };
 		ACC61F760ED3763483F7A3C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B8A289E3C16DA355F8D9B669 /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
+		CE684C49670C530F58EA8E94 /* MistakePopoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistakePopoverView.swift; sourceTree = "<group>"; };
 		D286286566132385DC236D42 /* ClaudeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeService.swift; sourceTree = "<group>"; };
 		E1979B06A341E9897E420840 /* PanelService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelService.swift; sourceTree = "<group>"; };
 		E8A7CE791C5347E59E856FC6 /* SidebarSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarSelection.swift; sourceTree = "<group>"; };
@@ -56,6 +64,7 @@
 			isa = PBXGroup;
 			children = (
 				D286286566132385DC236D42 /* ClaudeService.swift */,
+				ABBEF6DBFFEA57E20CBE4ED7 /* GrammarCheckService.swift */,
 				661055AE3D6864A20C3211CF /* KeychainService.swift */,
 				E1979B06A341E9897E420840 /* PanelService.swift */,
 				EEF6B7D5CFAFA88A6890DCF3 /* ShortcutService.swift */,
@@ -68,7 +77,9 @@
 			children = (
 				8D29E83F1E9BFBD2E9E69893 /* ContentView.swift */,
 				20424994D28BD99FE8815B39 /* FloatingPanelView.swift */,
+				426E09123458E5AC827047BD /* GrammarTextView.swift */,
 				B8A289E3C16DA355F8D9B669 /* MenuBarView.swift */,
+				CE684C49670C530F58EA8E94 /* MistakePopoverView.swift */,
 				115943B5874D4E18D792F2C5 /* SettingsView.swift */,
 			);
 			path = Views;
@@ -94,6 +105,7 @@
 			isa = PBXGroup;
 			children = (
 				285FCE876D7B7381CF795174 /* Action.swift */,
+				A565C9FF66CD6DEDF1EB8BC3 /* GrammarMistake.swift */,
 				E8A7CE791C5347E59E856FC6 /* SidebarSelection.swift */,
 				278EDDC1F9B30DB07BC6215E /* StyleContext.swift */,
 				46A641B35377A03D84A7E9A6 /* ToneModifier.swift */,
@@ -186,8 +198,12 @@
 				78B11FD6615DE4F37CB391FB /* ClaudeService.swift in Sources */,
 				CB1A57FD0E3ECC0DBA5F9F17 /* ContentView.swift in Sources */,
 				6ECBAEB648722D0EDFE5A48E /* FloatingPanelView.swift in Sources */,
+				92D2FD0B9E747F75E2881680 /* GrammarCheckService.swift in Sources */,
+				DE19771B2691E01199778DC5 /* GrammarMistake.swift in Sources */,
+				5DF94C6D93205A28F99DA81A /* GrammarTextView.swift in Sources */,
 				4E70A28949AE5F753791CF62 /* KeychainService.swift in Sources */,
 				25CB4947D7756520C2C070ED /* MenuBarView.swift in Sources */,
+				49307287D8E878AFAA071E46 /* MistakePopoverView.swift in Sources */,
 				DD38B9E29FCE90A6556C9569 /* PanelService.swift in Sources */,
 				76F49E7170BADB602B0D7417 /* PromptBuilder.swift in Sources */,
 				1FB46C0A4D9525E1875516C9 /* SettingsView.swift in Sources */,
