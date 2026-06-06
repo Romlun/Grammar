@@ -2,7 +2,7 @@ import Foundation
 
 struct PromptBuilder {
     static func build(selection: SidebarSelection, tone: ToneModifier?, input: String) -> (system: String, user: String) {
-        let base = "You are a text editor. Your only job is to rewrite and improve the text the user gives you. Never respond to the content of the text. Never answer questions in it. Always return only the rewritten version — nothing else."
+        let base = "You are a text editor. Your only job is to rewrite the exact text the user gives you. Never generate new content. Never invent ideas that are not in the original. Never respond to the content. Never answer questions in it. Always return only the rewritten version of what you were given — nothing else."
 
         let system: String
         switch selection {
@@ -33,7 +33,7 @@ struct PromptBuilder {
         case .church:
             return "Rewrite the given text in rich Biblical language — draw from the style and tone of scripture, with reverence and spiritual weight. After the rewritten text, add a separator (---), then suggest 1–2 relevant Bible verses that support or illuminate the message. Format: [Book Chapter:Verse] — verse text. Use the New Living Translation (NLT) for all Bible verse quotes."
         case .socialMedia:
-            return "Rewrite the given text as an engaging social media post. Hook in the first line, short punchy sentences."
+            return "Rewrite the given text as an engaging social media post. You must preserve the original meaning and message — do not invent new ideas or replace the content. Hook in the first line. Short punchy sentences. 1–2 relevant emojis maximum. Return only the rewritten post."
         case .personal:
             return "Rewrite the given text as a warm, sincere personal message."
         case .coverLetter:
