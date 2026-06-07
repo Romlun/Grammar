@@ -18,6 +18,8 @@ class KeyboardViewController: UIInputViewController {
     private var shiftKey: UIButton!
     private var lettersPane: UIView!
     private var numbersPane: UIView!
+    private var keyPreview: UILabel?
+    private var letterButtons: [UIButton] = []
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -236,8 +238,12 @@ class KeyboardViewController: UIInputViewController {
     private func eqRow(_ titles: [String], letter: Bool) -> UIStackView {
         let r = hstk(6, dist: .fillEqually)
         for t in titles {
-            let b = btn(t, bg: kKeyBg, fs: 17)
+            let shown = (letter && shiftState != .off) ? t.uppercased() : t
+            let b = btn(shown, bg: kKeyBg, fs: 17)
             b.addTarget(self, action: letter ? #selector(letterTapped(_:)) : #selector(charTapped(_:)), for: .touchUpInside)
+            b.addTarget(self, action: #selector(keyDown(_:)), for: .touchDown)
+            b.addTarget(self, action: #selector(keyUp(_:)), for: [.touchUpInside, .touchUpOutside, .touchCancel])
+            if letter { letterButtons.append(b) }
             r.addArrangedSubview(b)
         }
         return r
@@ -275,7 +281,7 @@ class KeyboardViewController: UIInputViewController {
 
     @objc private func letterTapped(_ sender: UIButton) {
         guard let t = sender.title(for: .normal) else { return }
-        textDocumentProxy.insertText(shiftState != .off ? t.uppercased() : t)
+        textDocumentProxy.insertText(t)
         if shiftState == .on { shiftState = .off; refreshShift() }
     }
 
@@ -285,7 +291,14 @@ class KeyboardViewController: UIInputViewController {
     }
 
     @objc private func spaceTapped() {
-        textDocumentProxy.insertText(" ")
+        let before = textDocumentProxy.documentContextBeforeInput ?? ""
+        let chars = Array(before)
+        if chars.count >= 2, chars.last == " ", chars[chars.count - 2].isLetter || chars[chars.count - 2].isNumber {
+            textDocumentProxy.deleteBackward()
+            textDocumentProxy.insertText(". ")
+        } else {
+            textDocumentProxy.insertText(" ")
+        }
         autoShift()
     }
 
@@ -334,11 +347,42 @@ class KeyboardViewController: UIInputViewController {
             shiftKey.backgroundColor = kPurple
             shiftKey.setTitleColor(.white, for: .normal)
         }
+        let upper = shiftState != .off
+        for b in letterButtons {
+            guard let t = b.title(for: .normal) else { continue }
+            b.setTitle(upper ? t.uppercased() : t.lowercased(), for: .normal)
+        }
     }
 
     @objc private func goNumbers() { lettersPane.isHidden = true;  numbersPane.isHidden = false }
     @objc private func goLetters() { lettersPane.isHidden = false; numbersPane.isHidden = true  }
     @objc private func improveTapped() { /* Phase 3: grab surrounding text, send to API */ }
+
+    @objc private func keyDown(_ sender: UIButton) {
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        guard let t = sender.title(for: .normal), !t.isEmpty else { return }
+        keyPreview?.removeFromSuperview()
+        let f = sender.convert(sender.bounds, to: view)
+        let pw = f.width + 22, ph = f.height + 26
+        let p = UILabel(frame: CGRect(x: f.midX - pw/2, y: f.minY - ph - 2, width: pw, height: ph))
+        p.text = t
+        p.font = .systemFont(ofSize: 28)
+        p.textAlignment = .center
+        p.textColor = .black
+        p.backgroundColor = .white
+        p.layer.cornerRadius = 8
+        p.layer.shadowColor = UIColor.black.cgColor
+        p.layer.shadowOpacity = 0.2
+        p.layer.shadowRadius = 4
+        p.layer.shadowOffset = CGSize(width: 0, height: 2)
+        view.addSubview(p)
+        keyPreview = p
+    }
+
+    @objc private func keyUp(_ sender: UIButton) {
+        keyPreview?.removeFromSuperview()
+        keyPreview = nil
+    }
 
     private func autoShift() {
         guard shiftState != .locked else { return }
