@@ -1,11 +1,6 @@
 #if os(macOS)
 import SwiftUI
 
-private let purple       = Color(red: 124/255, green: 58/255,  blue: 237/255)
-private let sidebarBg   = Color(red: 30/255,  green: 30/255,  blue: 30/255)
-private let unselected  = Color(red: 153/255, green: 153/255, blue: 153/255)
-private let sectionLbl  = Color(red: 85/255,  green: 85/255,  blue: 85/255)
-
 struct ContentView: View {
     @State private var inputText: String = ""
     @State private var selection: SidebarSelection = .context(.everyday)
@@ -42,6 +37,7 @@ struct ContentView: View {
                     Image(systemName: "clock")
                 }
                 .help("History")
+                .accessibilityLabel("History")
             }
             ToolbarItem(placement: .automatic) {
                 Button {
@@ -50,14 +46,16 @@ struct ContentView: View {
                     if !grammarEnabled { mistakes = [] }
                 } label: {
                     Image(systemName: grammarEnabled ? "text.badge.checkmark" : "text.badge.xmark")
-                        .foregroundStyle(grammarEnabled ? purple : Color(NSColor.secondaryLabelColor))
+                        .foregroundStyle(grammarEnabled ? DesignTokens.accent : Color(NSColor.secondaryLabelColor))
                 }
                 .help(grammarEnabled ? "Grammar check on" : "Grammar check off")
+                .accessibilityLabel("Grammar Check")
             }
             ToolbarItem(placement: .automatic) {
                 Button { showSettings = true } label: {
                     Image(systemName: "gear")
                 }
+                .accessibilityLabel("Settings")
             }
         }
         .sheet(isPresented: $showSettings) {
@@ -87,7 +85,7 @@ struct ContentView: View {
                 }
             }
 
-            Color.clear.frame(height: 12)
+            Color.clear.frame(height: DesignTokens.sp3)
 
             sidebarSection(label: "TOOLS") {
                 ForEach(Tool.allCases) { tool in
@@ -105,39 +103,42 @@ struct ContentView: View {
             Spacer()
         }
         .frame(width: 180)
-        .background(sidebarBg)
+        .background(DesignTokens.sidebarBackground)
     }
 
     private func sidebarSection<Content: View>(label: String, @ViewBuilder content: () -> Content) -> some View {
         VStack(alignment: .leading, spacing: 2) {
             Text(label)
                 .font(.system(size: 10, weight: .semibold))
-                .foregroundStyle(sectionLbl)
-                .padding(.horizontal, 12)
-                .padding(.top, 16)
-                .padding(.bottom, 4)
+                .foregroundStyle(DesignTokens.sidebarSectionLabel)
+                .padding(.horizontal, DesignTokens.sp3)
+                .padding(.top, DesignTokens.sp4)
+                .padding(.bottom, DesignTokens.sp1)
             content()
         }
     }
 
     private func sidebarButton(icon: String, label: String, isSelected: Bool, action: @escaping () -> Void) -> some View {
         Button(action: action) {
-            HStack(spacing: 8) {
+            HStack(spacing: DesignTokens.sp2) {
                 Image(systemName: icon)
                     .frame(width: 16, alignment: .center)
                 Text(label)
-                    .font(.system(size: 12))
+                    .font(.system(size: 13))
                     .lineLimit(1)
                 Spacer()
             }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 7)
-            .background(isSelected ? purple : Color.clear)
-            .cornerRadius(6)
-            .foregroundStyle(isSelected ? Color.white : unselected)
+            .padding(.horizontal, DesignTokens.sp3)
+            .padding(.vertical, DesignTokens.sp2)
+            .background(
+                (isSelected ? DesignTokens.accent : Color.clear)
+                    .animation(.easeInOut(duration: 0.12), value: isSelected)
+            )
+            .clipShape(RoundedRectangle(cornerRadius: DesignTokens.radiusCard))
+            .foregroundStyle(isSelected ? Color.white : DesignTokens.sidebarItemUnselected)
         }
         .buttonStyle(.plain)
-        .padding(.horizontal, 8)
+        .padding(.horizontal, DesignTokens.sp2)
     }
 
     // MARK: - Helpers
@@ -186,7 +187,7 @@ struct ContentView: View {
                     Text("\(inputText.split(separator: " ").count) words")
                         .font(.system(size: 11))
                         .foregroundStyle(Color(NSColor.tertiaryLabelColor))
-                        .padding(.trailing, 10)
+                        .padding(.trailing, DesignTokens.sp3)
                         .padding(.bottom, 6)
                 }
                 .background(Color(NSColor.textBackgroundColor))
@@ -209,7 +210,7 @@ struct ContentView: View {
                     Text(resultText.isEmpty ? "Your improved text will appear here" : resultText)
                         .foregroundStyle(resultText.isEmpty ? .secondary : .primary)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(16)
+                        .padding(DesignTokens.sp4)
                         .textSelection(.enabled)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -225,7 +226,7 @@ struct ContentView: View {
 
     private func emailResultPanel(email: (subject: String, body: String)) -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: DesignTokens.sp1) {
                 Text("Subject")
                     .font(.system(size: 10, weight: .semibold))
                     .foregroundStyle(Color(NSColor.secondaryLabelColor))
@@ -237,7 +238,7 @@ struct ContentView: View {
                     NSPasteboard.general.clearContents()
                     NSPasteboard.general.setString(email.subject, forType: .string)
                 } label: {
-                    HStack(spacing: 4) {
+                    HStack(spacing: DesignTokens.sp1) {
                         Image(systemName: "doc.on.doc")
                         Text("Copy subject")
                     }
@@ -246,7 +247,7 @@ struct ContentView: View {
                 .buttonStyle(.plain)
                 .foregroundStyle(Color(NSColor.secondaryLabelColor))
             }
-            .padding(12)
+            .padding(DesignTokens.sp3)
             .background(Color(NSColor.controlBackgroundColor))
 
             Divider()
@@ -256,7 +257,7 @@ struct ContentView: View {
                     .font(.body)
                     .textSelection(.enabled)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(12)
+                    .padding(DesignTokens.sp3)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
 
@@ -266,7 +267,7 @@ struct ContentView: View {
     }
 
     private func resultButtons(copyText: String, useAsInput: String) -> some View {
-        HStack(spacing: 8) {
+        HStack(spacing: DesignTokens.sp2) {
             Button {
                 runImprove()
             } label: {
@@ -307,14 +308,14 @@ struct ContentView: View {
             .buttonStyle(.plain)
             .foregroundStyle(Color(NSColor.secondaryLabelColor))
         }
-        .padding(.horizontal, 12)
-        .padding(.bottom, 8)
+        .padding(.horizontal, DesignTokens.sp3)
+        .padding(.bottom, DesignTokens.sp2)
     }
 
     // MARK: - Bottom toolbar
 
     private var bottomToolbar: some View {
-        HStack(spacing: 8) {
+        HStack(spacing: DesignTokens.sp2) {
             if showTonePills {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 6) {
@@ -324,20 +325,23 @@ struct ContentView: View {
                             } label: {
                                 Text(tone.label)
                                     .font(.system(size: 11))
-                                    .padding(.vertical, 4)
+                                    .padding(.vertical, DesignTokens.sp1)
                                     .padding(.horizontal, 10)
-                                    .background(selectedTone == tone ? purple.opacity(0.15) : Color.clear)
+                                    .background(
+                                        (selectedTone == tone ? DesignTokens.accentSubtle : Color.clear)
+                                            .animation(.easeInOut(duration: 0.10), value: selectedTone == tone)
+                                    )
                                     .clipShape(Capsule())
                                     .overlay(Capsule().stroke(
-                                        selectedTone == tone ? purple : Color(NSColor.separatorColor),
+                                        selectedTone == tone ? DesignTokens.accent : Color(NSColor.separatorColor),
                                         lineWidth: 1
                                     ))
-                                    .foregroundStyle(selectedTone == tone ? purple : Color(NSColor.secondaryLabelColor))
+                                    .foregroundStyle(selectedTone == tone ? DesignTokens.accent : Color(NSColor.secondaryLabelColor))
                             }
                             .buttonStyle(.plain)
                         }
                     }
-                    .padding(.horizontal, 4)
+                    .padding(.horizontal, DesignTokens.sp1)
                 }
             } else {
                 Spacer()
@@ -349,15 +353,15 @@ struct ContentView: View {
             .keyboardShortcut(.return, modifiers: .command)
             .disabled(isLoading || inputText.isEmpty)
             .buttonStyle(.plain)
-            .font(.system(size: 13, weight: .medium))
+            .font(.system(size: 13, weight: .semibold))
             .padding(.vertical, 6)
-            .padding(.horizontal, 14)
-            .background(isLoading || inputText.isEmpty ? purple.opacity(0.4) : purple)
+            .padding(.horizontal, DesignTokens.sp4)
+            .background(isLoading || inputText.isEmpty ? DesignTokens.accentDisabled : DesignTokens.accent)
             .foregroundStyle(.white)
-            .cornerRadius(6)
+            .clipShape(RoundedRectangle(cornerRadius: DesignTokens.radiusCard))
         }
-        .padding(.horizontal, 12)
-        .frame(height: 52)
+        .padding(.horizontal, DesignTokens.sp3)
+        .frame(height: 48)
         .background(Color(NSColor.windowBackgroundColor))
         .overlay(alignment: .top) {
             Rectangle()

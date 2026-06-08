@@ -28,6 +28,7 @@ struct SettingsView: View {
                     dismiss()
                 }
                 .buttonStyle(.borderedProminent)
+                .tint(DesignTokens.accent)
                 .disabled(apiKey.isEmpty)
             }
         }

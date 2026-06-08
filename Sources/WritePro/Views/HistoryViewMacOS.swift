@@ -6,8 +6,6 @@ struct HistoryViewMacOS: View {
     var onSelect: (HistoryEntry) -> Void
     @Environment(\.dismiss) private var dismiss
 
-    private let purple = Color(red: 124/255, green: 58/255, blue: 237/255)
-
     private let dateFormatter: DateFormatter = {
         let f = DateFormatter()
         f.dateStyle = .short
@@ -32,9 +30,10 @@ struct HistoryViewMacOS: View {
                         .foregroundStyle(Color(NSColor.tertiaryLabelColor))
                 }
                 .buttonStyle(.plain)
+                .accessibilityLabel("Close")
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 12)
+            .padding(.horizontal, DesignTokens.sp4)
+            .padding(.vertical, DesignTokens.sp3)
             .background(Color(NSColor.windowBackgroundColor))
 
             Divider()
@@ -43,9 +42,9 @@ struct HistoryViewMacOS: View {
                 VStack(spacing: 10) {
                     Image(systemName: "clock")
                         .font(.system(size: 36))
-                        .foregroundStyle(purple.opacity(0.4))
+                        .foregroundStyle(DesignTokens.accent.opacity(0.4))
                     Text("No history yet")
-                        .font(.system(size: 14, weight: .medium))
+                        .font(.system(size: 13, weight: .medium))
                     Text("Your last 20 rewrites will appear here.")
                         .font(.system(size: 12))
                         .foregroundStyle(.secondary)
@@ -61,10 +60,10 @@ struct HistoryViewMacOS: View {
                             HStack {
                                 Text(entry.mode)
                                     .font(.system(size: 10, weight: .semibold))
-                                    .foregroundStyle(purple)
-                                    .padding(.horizontal, 7)
+                                    .foregroundStyle(DesignTokens.accent)
+                                    .padding(.horizontal, DesignTokens.sp2)
                                     .padding(.vertical, 2)
-                                    .background(purple.opacity(0.1))
+                                    .background(DesignTokens.accentSubtle)
                                     .clipShape(Capsule())
                                 Spacer()
                                 Text(dateFormatter.string(from: entry.date))

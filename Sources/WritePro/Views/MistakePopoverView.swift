@@ -7,7 +7,7 @@ struct MistakePopoverView: View {
     let onDismiss: () -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: DesignTokens.sp3) {
             HStack {
                 Image(systemName: "exclamationmark.circle.fill")
                     .foregroundStyle(.red)
@@ -22,24 +22,24 @@ struct MistakePopoverView: View {
                 .buttonStyle(.plain)
             }
 
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: DesignTokens.sp1) {
                 Text("Suggestion")
                     .font(.system(size: 11))
                     .foregroundStyle(Color(NSColor.secondaryLabelColor))
                 Text(mistake.suggestion)
                     .font(.system(size: 13))
-                    .padding(8)
+                    .padding(DesignTokens.sp2)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .background(Color(NSColor.controlBackgroundColor))
-                    .cornerRadius(6)
+                    .clipShape(RoundedRectangle(cornerRadius: DesignTokens.radiusCard))
             }
 
             Button("Apply Fix") { onApply() }
                 .buttonStyle(.borderedProminent)
-                .tint(Color(red: 124/255, green: 58/255, blue: 237/255))
+                .tint(DesignTokens.accent)
                 .frame(maxWidth: .infinity)
         }
-        .padding(16)
+        .padding(DesignTokens.sp4)
         .frame(width: 280)
     }
 }

@@ -3,8 +3,6 @@ import SwiftUI
 import AppKit
 import CoreGraphics
 
-private let panelPurple = Color(red: 124/255, green: 58/255, blue: 237/255)
-
 struct FloatingPanelView: View {
     let initialText: String
 
@@ -18,7 +16,7 @@ struct FloatingPanelView: View {
         VStack(spacing: 0) {
             // Input
             ZStack(alignment: .topLeading) {
-                RoundedRectangle(cornerRadius: 6)
+                RoundedRectangle(cornerRadius: DesignTokens.radiusCard)
                     .stroke(Color(NSColor.separatorColor), lineWidth: 1)
                 TextEditor(text: $inputText)
                     .font(.body)
@@ -26,7 +24,7 @@ struct FloatingPanelView: View {
                     .scrollContentBackground(.hidden)
             }
             .frame(height: 120)
-            .padding([.horizontal, .top], 12)
+            .padding([.horizontal, .top], DesignTokens.sp3)
 
             // Context picker
             ScrollView(.horizontal, showsIndicators: false) {
@@ -44,10 +42,10 @@ struct FloatingPanelView: View {
                         }
                     }
                 }
-                .padding(.horizontal, 4)
+                .padding(.horizontal, DesignTokens.sp1)
             }
-            .padding(.horizontal, 12)
-            .padding(.top, 10)
+            .padding(.horizontal, DesignTokens.sp3)
+            .padding(.top, DesignTokens.sp2)
 
             // Tone picker (context mode only)
             if case .context = selection {
@@ -59,9 +57,9 @@ struct FloatingPanelView: View {
                             }
                         }
                     }
-                    .padding(.horizontal, 4)
+                    .padding(.horizontal, DesignTokens.sp1)
                 }
-                .padding(.horizontal, 12)
+                .padding(.horizontal, DesignTokens.sp3)
                 .padding(.top, 6)
             }
 
@@ -70,25 +68,25 @@ struct FloatingPanelView: View {
                 Text(resultText.isEmpty ? "Result will appear here…" : resultText)
                     .foregroundStyle(resultText.isEmpty ? .secondary : .primary)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(8)
+                    .padding(DesignTokens.sp2)
             }
             .frame(maxHeight: .infinity)
-            .padding(.horizontal, 12)
-            .padding(.top, 8)
+            .padding(.horizontal, DesignTokens.sp3)
+            .padding(.top, DesignTokens.sp2)
 
             // Bottom toolbar
             Divider()
-            HStack(spacing: 8) {
+            HStack(spacing: DesignTokens.sp2) {
                 Button("Improve") {
                     runImprove()
                 }
                 .buttonStyle(.plain)
-                .font(.system(size: 12, weight: .medium))
+                .font(.system(size: 13, weight: .semibold))
                 .padding(.vertical, 5)
-                .padding(.horizontal, 12)
-                .background(isLoading || inputText.isEmpty ? panelPurple.opacity(0.4) : panelPurple)
+                .padding(.horizontal, DesignTokens.sp3)
+                .background(isLoading || inputText.isEmpty ? DesignTokens.accentDisabled : DesignTokens.accent)
                 .foregroundStyle(.white)
-                .cornerRadius(5)
+                .clipShape(RoundedRectangle(cornerRadius: DesignTokens.radiusCard))
                 .disabled(isLoading || inputText.isEmpty)
 
                 Button("Copy") {
@@ -108,8 +106,8 @@ struct FloatingPanelView: View {
                     ProgressView().scaleEffect(0.7)
                 }
             }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 8)
+            .padding(.horizontal, DesignTokens.sp3)
+            .padding(.vertical, DesignTokens.sp2)
         }
         .onAppear {
             inputText = initialText
@@ -120,15 +118,18 @@ struct FloatingPanelView: View {
         Button(action: action) {
             Text(label)
                 .font(.system(size: 12))
-                .padding(.vertical, 4)
+                .padding(.vertical, DesignTokens.sp1)
                 .padding(.horizontal, 10)
-                .background(isSelected ? panelPurple : Color.clear)
+                .background(
+                    (isSelected ? DesignTokens.accentSubtle : Color.clear)
+                        .animation(.easeInOut(duration: 0.10), value: isSelected)
+                )
                 .clipShape(Capsule())
                 .overlay(Capsule().stroke(
-                    isSelected ? panelPurple : Color(NSColor.separatorColor),
+                    isSelected ? DesignTokens.accent : Color(NSColor.separatorColor),
                     lineWidth: 1
                 ))
-                .foregroundStyle(isSelected ? Color.white : Color(NSColor.secondaryLabelColor))
+                .foregroundStyle(isSelected ? DesignTokens.accent : Color(NSColor.secondaryLabelColor))
         }
         .buttonStyle(.plain)
     }
