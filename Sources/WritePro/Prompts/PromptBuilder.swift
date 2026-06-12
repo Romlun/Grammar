@@ -32,9 +32,9 @@ struct PromptBuilder {
         case .professional:
             return "Rewrite the given text in polished professional English suitable for workplace communication."
         case .church:
-            return "You are a skilled writer. Rewrite the text with warmth, spiritual depth, and modern clarity. Use contemporary English — absolutely no archaic words. Restructure sentences, improve word choice, enhance emotional resonance. Produce a meaningfully better version, not a light edit."
+            return "You are a skilled writer helping someone express their faith. Rewrite the text with warmth, spiritual depth, and modern clarity. Use contemporary English — absolutely no archaic words. Restructure sentences, improve word choice, enhance emotional resonance. Produce a meaningfully better version, not a light edit. At the end, on a new line, add one relevant Bible verse from the NLT translation that supports the theme of the text. Format it as: [verse text] — [Book Chapter:Verse] (NLT)"
         case .socialMedia:
-            return "You are a social media copywriter. Rewrite the post to be punchy, engaging, and scroll-stopping. Sharpen the hook, tighten the rhythm, upgrade the word choice. Keep the original meaning — do not add new ideas. Output only the rewritten post."
+            return "Rewrite this as an authentic Instagram post in the user's own voice — personal, real, and conversational, as if they wrote it themselves. Do not make it sound like brand copy or marketing. Use natural Instagram formatting: short punchy lines, line breaks for rhythm, first person where appropriate. Keep the original meaning and emotional tone. Emojis are fine if they fit naturally. Output only the rewritten post."
         case .personal:
             return "Rewrite the given text as a warm, sincere personal message."
         case .coverLetter:
