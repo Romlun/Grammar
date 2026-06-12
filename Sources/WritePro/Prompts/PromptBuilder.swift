@@ -31,9 +31,9 @@ struct PromptBuilder {
         case .professional:
             return "Rewrite the given text in polished professional English suitable for workplace communication."
         case .church:
-            return "Rewrite the given text in rich Biblical language — draw from the style and tone of scripture, with reverence and spiritual weight. After the rewritten text, add a separator (---), then suggest 1–2 relevant Bible verses that support or illuminate the message. Format: [Book Chapter:Verse] — verse text. Use the New Living Translation (NLT) for all Bible verse quotes."
+            return "Rewrite with a warm, modern spiritual tone. Use clear contemporary English. Reflect sincerity, faith, and encouragement — no archaic words (no thee, thou, dost, hath, etc.). Sound like a thoughtful pastor speaking today, not a centuries-old Bible translation."
         case .socialMedia:
-            return "Rewrite the given text as an engaging social media post. You must preserve the original meaning and message — do not invent new ideas or replace the content. Hook in the first line. Short punchy sentences. 1–2 relevant emojis maximum. Return only the rewritten post."
+            return "You are editing a social media post. Your ONLY job is to rewrite the text provided. Do NOT reply to it, answer it, or treat it as a question or message. Do NOT add any preamble, commentary, or sign-off. Output only the improved post — nothing else. Preserve the original meaning exactly."
         case .personal:
             return "Rewrite the given text as a warm, sincere personal message."
         case .coverLetter:
