@@ -10,6 +10,7 @@ struct PromptBuilder {
             let tonePrompt: String? = tone.map { "Tone: make it sound \($0.label.lowercased())." }
             system = ([
                 base,
+                "Make substantial improvements — do not limit yourself to grammar fixes.",
                 contextPrompt(ctx),
                 tonePrompt,
                 "Fix all grammar, spelling, and comma errors. Pay attention to commas before coordinating conjunctions (for, and, nor, but, or, yet, so). Return only the rewritten text, no commentary."
@@ -31,9 +32,9 @@ struct PromptBuilder {
         case .professional:
             return "Rewrite the given text in polished professional English suitable for workplace communication."
         case .church:
-            return "Rewrite this text to be warm, engaging, and spiritually resonant. Use clear modern English — no archaic words (no thee, thou, dost, hath). Improve the flow, word choice, and emotional depth. Sound like a thoughtful, contemporary pastor. Make it noticeably better, not just grammatically correct."
+            return "You are a skilled writer. Rewrite the text with warmth, spiritual depth, and modern clarity. Use contemporary English — absolutely no archaic words. Restructure sentences, improve word choice, enhance emotional resonance. Produce a meaningfully better version, not a light edit."
         case .socialMedia:
-            return "Rewrite this as an improved social media post. Make it more engaging, punchy, and shareable. Improve the hook, rhythm, and word choice. Preserve the original meaning exactly — do not add new ideas or reply to the text. Output only the rewritten post with no preamble or commentary."
+            return "You are a social media copywriter. Rewrite the post to be punchy, engaging, and scroll-stopping. Sharpen the hook, tighten the rhythm, upgrade the word choice. Keep the original meaning — do not add new ideas. Output only the rewritten post."
         case .personal:
             return "Rewrite the given text as a warm, sincere personal message."
         case .coverLetter:
