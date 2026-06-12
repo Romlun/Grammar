@@ -10,10 +10,10 @@ struct PromptBuilder {
             let tonePrompt: String? = tone.map { "Tone: make it sound \($0.label.lowercased())." }
             system = ([
                 base,
-                "Make substantial improvements — do not limit yourself to grammar fixes.",
+                "Your primary job is to substantially rewrite and improve the text — restructure sentences, sharpen word choice, and elevate quality. Do not limit yourself to grammar fixes. While rewriting, also silently correct any grammar, spelling, and punctuation errors (including commas before coordinating conjunctions: for, and, nor, but, or, yet, so) as a baseline — but never let error-fixing replace genuine rewriting.",
                 contextPrompt(ctx),
                 tonePrompt,
-                "Fix all grammar, spelling, and comma errors. Pay attention to commas before coordinating conjunctions (for, and, nor, but, or, yet, so). Return only the rewritten text, no commentary."
+                "Return only the rewritten text, no commentary."
             ] as [String?]).compactMap { $0 }.joined(separator: "\n\n")
 
         case .tool(let tool):
