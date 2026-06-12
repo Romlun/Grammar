@@ -10,9 +10,10 @@ struct PromptBuilder {
             let tonePrompt: String? = tone.map { "Tone: make it sound \($0.label.lowercased())." }
             system = ([
                 base,
+                "Your primary job is to substantially rewrite and improve the text — restructure sentences, sharpen word choice, and elevate quality. Do not limit yourself to grammar fixes. While rewriting, also silently correct any grammar, spelling, and punctuation errors (including commas before coordinating conjunctions: for, and, nor, but, or, yet, so) as a baseline — but never let error-fixing replace genuine rewriting.",
                 contextPrompt(ctx),
                 tonePrompt,
-                "Fix all grammar, spelling, and comma errors. Pay attention to commas before coordinating conjunctions (for, and, nor, but, or, yet, so). Return only the rewritten text, no commentary."
+                "Return only the rewritten text, no commentary."
             ] as [String?]).compactMap { $0 }.joined(separator: "\n\n")
 
         case .tool(let tool):
@@ -31,9 +32,9 @@ struct PromptBuilder {
         case .professional:
             return "Rewrite the given text in polished professional English suitable for workplace communication."
         case .church:
-            return "Rewrite the given text in rich Biblical language — draw from the style and tone of scripture, with reverence and spiritual weight. After the rewritten text, add a separator (---), then suggest 1–2 relevant Bible verses that support or illuminate the message. Format: [Book Chapter:Verse] — verse text. Use the New Living Translation (NLT) for all Bible verse quotes."
+            return "You are a skilled writer helping someone express their faith. Rewrite the text with warmth, spiritual depth, and modern clarity. Use contemporary English — absolutely no archaic words. Restructure sentences, improve word choice, enhance emotional resonance. Produce a meaningfully better version, not a light edit. At the end, on a new line, add one relevant Bible verse from the NLT translation that supports the theme of the text. Format it as: [verse text] — [Book Chapter:Verse] (NLT)"
         case .socialMedia:
-            return "Rewrite the given text as an engaging social media post. You must preserve the original meaning and message — do not invent new ideas or replace the content. Hook in the first line. Short punchy sentences. 1–2 relevant emojis maximum. Return only the rewritten post."
+            return "Rewrite this as an authentic Instagram post in the user's own voice — personal, real, and conversational, as if they wrote it themselves. Do not make it sound like brand copy or marketing. Use natural Instagram formatting: short punchy lines, line breaks for rhythm, first person where appropriate. Keep the original meaning and emotional tone. Emojis are fine if they fit naturally. Output only the rewritten post."
         case .personal:
             return "Rewrite the given text as a warm, sincere personal message."
         case .coverLetter:
